@@ -1,3 +1,4 @@
+alert("JS LOADED");
 const GAME_TIME = 200;
 const GRID_SIZE = 5;
 const TILE_COUNT = 24;
