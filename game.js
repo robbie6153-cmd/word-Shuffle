@@ -205,32 +205,34 @@ function extendSelection(i){
   renderBoard();
 }
 
-function submitWord(){
-  if (selectedPath.length<3 || selectedPath.length>5){
-    clearSelection(); return;
+ffunction submitWord() {
+  if (selectedPath.length < 3 || selectedPath.length > 5) {
+    clearSelection();
+    return;
   }
 
-  if (!(isRight(selectedPath) || isDown(selectedPath))){
-    clearSelection(); return;
+  if (!(isRight(selectedPath) || isDown(selectedPath))) {
+    clearSelection();
+    return;
   }
 
   const word = getWord(selectedPath).toUpperCase();
 
-if (!DICTIONARY.has(word)) {
-  messageEl.textContent = `"${word}" is not a valid word`;
-  clearSelection();
-  return;
-}
+  if (!DICTIONARY.has(word)) {
+    messageEl.textContent = `"${word}" is not a valid word`;
+    clearSelection();
+    return;
+  }
 
-if (usedWords.has(word)) {
-  messageEl.textContent = `"${word}" already used`;
-  clearSelection();
-  return;
-}
+  if (usedWords.has(word)) {
+    messageEl.textContent = `"${word}" already used`;
+    clearSelection();
+    return;
+  }
 
   let pts = basePoints(word.length) * frozenRoundMultiplier;
 
-  if (word === fullChainWord){
+  if (word === fullChainWord) {
     pts += 10;
   }
 
@@ -239,6 +241,8 @@ if (usedWords.has(word)) {
   frozenRoundMultiplier++;
 
   scoreEl.textContent = score;
+  messageEl.textContent = `${word} scored ${pts} points`;
+
   clearSelection();
 }
 
