@@ -205,7 +205,7 @@ function extendSelection(i){
   renderBoard();
 }
 
-ffunction submitWord() {
+function submitWord() {
   if (selectedPath.length < 3 || selectedPath.length > 5) {
     clearSelection();
     return;
