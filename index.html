@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Word Scramble</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div id="gameContainer">
+
+    <!-- TOP BAR -->
+    <div id="topBar">
+      <div>Score: <span id="score">0</span></div>
+      <div>Time: <span id="timer">200</span></div>
+    </div>
+
+    <!-- GAME BOARD -->
+    <div id="board"></div>
+
+    <!-- BUTTON -->
+    <button id="freezeBtn">Freeze Grid</button>
+
+    <!-- MESSAGE -->
+    <div id="message"></div>
+
+  </div>
+
+  <!-- END SCREEN -->
+  <div id="endScreen">
+    <div id="endContent">
+      <h2 id="endMessage">Time’s up!</h2>
+      <button id="playAgainBtn">Play Again</button>
+      <button id="homeBtn">Home</button>
+    </div>
+  </div>
+
+  <!-- GAME SCRIPT -->
+  <script src="game.js"></script>
+
+</body>
+</html>
