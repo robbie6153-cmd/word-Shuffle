@@ -33,10 +33,8 @@ const homeBtn = document.getElementById("homeBtn");
 
 // Dictionary
 function getDictionarySet() {
-  if (typeof getDictionaryArray === "function") {
-    const arr = getDictionaryArray();
-    return new Set(arr.map(w => w.trim().toUpperCase()));
-  }
+  return new Set(getDictionaryArray());
+}
 
   return new Set([
     "END","LEND","BLEND",
@@ -350,4 +348,13 @@ freezeBtn.onclick = freezeGrid;
 playAgainBtn.onclick = resetGame;
 
 // INIT
-resetGame();
+function waitForDictionary() {
+  if (typeof getDictionaryArray === "function" && getDictionaryArray().length > 0) {
+    console.log("Dictionary ready, starting game");
+    resetGame();
+  } else {
+    setTimeout(waitForDictionary, 100);
+  }
+}
+
+waitForDictionary();
