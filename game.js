@@ -215,7 +215,7 @@ function submitWord(){
   }
 
   const word = getWord(selectedPath).toUpperCase();
-
+alert("Word selected: " + word);
   if (!DICTIONARY.has(word)){
     clearSelection(); return;
   }
