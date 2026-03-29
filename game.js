@@ -46,7 +46,6 @@ function getDictionarySet() {
     "AND","BAND","BLAND",
     "ROW","BROW","BROWN"
   ]);
-}
 
 const DICTIONARY = getDictionarySet();
 
