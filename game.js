@@ -304,7 +304,15 @@ function renderBoard(){
 
     if (selectedPath.includes(i)) t.classList.add("selected");
 
-    t.onclick = ()=> moveTile(i);
+    t.onpointerup = () => {
+  if (!frozen) {
+    moveTile(i);
+    return;
+  }
+
+  isDragging = false;
+  submitWord();
+};
 
     t.onpointerdown = ()=>{
       if (!frozen) return;
@@ -319,10 +327,6 @@ function renderBoard(){
       extendSelection(i);
     };
 
-    t.onpointerup = ()=>{
-      isDragging = false;
-      submitWord();
-    };
 
     boardEl.appendChild(t);
   });
