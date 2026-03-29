@@ -215,15 +215,18 @@ function submitWord(){
   }
 
   const word = getWord(selectedPath).toUpperCase();
-alert("Word selected: " + word);
-alert("In dictionary: " + DICTIONARY.has(word));
-  if (!DICTIONARY.has(word)){
-    clearSelection(); return;
-  }
 
-  if (usedWords.has(word)){
-    clearSelection(); return;
-  }
+if (!DICTIONARY.has(word)) {
+  messageEl.textContent = `"${word}" is not a valid word`;
+  clearSelection();
+  return;
+}
+
+if (usedWords.has(word)) {
+  messageEl.textContent = `"${word}" already used`;
+  clearSelection();
+  return;
+}
 
   let pts = basePoints(word.length) * frozenRoundMultiplier;
 
