@@ -1,4 +1,4 @@
-alert("JS LOADED");
+
 const GAME_TIME = 200;
 const GRID_SIZE = 5;
 const TILE_COUNT = 24;
@@ -322,11 +322,10 @@ function renderBoard(){
       extendSelection(i);
     };
 
-    t.onpointerenter = ()=>{
-      if (!isDragging) return;
-      extendSelection(i);
-    };
-
+    t.onpointermove = () => {
+  if (!isDragging) return;
+  extendSelection(i);
+};
 
     boardEl.appendChild(t);
   });

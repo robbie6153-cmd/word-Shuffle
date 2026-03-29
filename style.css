@@ -64,6 +64,11 @@ body {
   user-select: none;
   cursor: pointer;
   touch-action: manipulation;
+  user-select: none;
+cursor: pointer;
+touch-action: none;
+-webkit-user-select: none;
+-webkit-touch-callout: none;
 }
 
 /* -------------------------
