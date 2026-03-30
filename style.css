@@ -2,16 +2,16 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-}/* -------------------------
+  overflow: hidden;
+}
+
+/* -------------------------
    GENERAL PAGE
 ------------------------- */
 body {
-  margin: 0;
-  padding: 0;
   font-family: Arial, sans-serif;
   color: black;
   text-align: center;
-
   background: url("background.jpg") no-repeat center center fixed;
   background-size: cover;
 }
@@ -20,7 +20,7 @@ body {
    GAME CONTAINER
 ------------------------- */
 #gameContainer {
-  padding-top: 00px;
+  padding-top: 0;
 }
 
 /* -------------------------
@@ -53,26 +53,19 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-
   font-size: 24px;
   font-weight: bold;
   color: black;
-
   background: linear-gradient(145deg, #d3d3d3, #bfbfbf);
   border-radius: 8px;
-
   box-shadow:
     4px 4px 8px rgba(0,0,0,0.3),
     -2px -2px 4px rgba(255,255,255,0.7);
-
   user-select: none;
   cursor: pointer;
-  touch-action: manipulation;
-  user-select: none;
-cursor: pointer;
-touch-action: none;
--webkit-user-select: none;
--webkit-touch-callout: none;
+  touch-action: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 /* -------------------------
@@ -99,12 +92,10 @@ button {
   padding: 12px 20px;
   font-size: 16px;
   font-weight: bold;
-
   background-color: #4CAF50;
   color: white;
   border: none;
   border-radius: 6px;
-
   cursor: pointer;
 }
 
@@ -129,10 +120,8 @@ button:active {
   position: fixed;
   top: 0;
   left: 0;
-
   width: 100%;
   height: 100%;
-
   background: rgba(0,0,0,0.7);
 }
 
@@ -141,18 +130,19 @@ button:active {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
   background: white;
   padding: 30px;
   border-radius: 10px;
-
   text-align: center;
 }
 
 #endContent h2 {
   margin-bottom: 20px;
 }
-/* General screen setup */
+
+/* -------------------------
+   SCREEN SETUP
+------------------------- */
 .screen {
   display: none;
   position: relative;
@@ -164,18 +154,45 @@ button:active {
   display: block;
 }
 
-/* Background images */
+/* -------------------------
+   BACKGROUND IMAGES
+------------------------- */
 .bg-image {
   width: 100%;
   height: 100vh;
   object-fit: contain;
-  background-color: grey; /* optional, fills empty space nicely */
+  background-color: grey;
 }
 
-/* Play button (home screen) */
+/* -------------------------
+   HOME SCREEN
+------------------------- */
+#home-screen {
+  background: url("background.jpg") no-repeat center center;
+  background-size: cover;
+}
+
+.home-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+  padding-top: 0;
+}
+
+.home-image {
+  max-width: 100%;
+  max-height: 100vh;
+  object-fit: contain;
+  display: block;
+}
+
+/* -------------------------
+   INVISIBLE PLAY BUTTON
+------------------------- */
 .play-btn {
   position: absolute;
-  top: 73%;
+  top: 68%;
   left: 50%;
   transform: translateX(-50%);
   width: 48%;
@@ -188,52 +205,34 @@ button:active {
   z-index: 10;
 }
 
-/* Rules title */
-.rules-title {
+/* -------------------------
+   RULES BOX
+------------------------- */
+.rules-box {
   position: absolute;
-  top: 20%;
-  width: 100%;
-  text-align: center;
-  color: black;
-}
-
-/* Start button */
-.start-btn {
-  position: absolute;
-  bottom: 15%;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  padding: 15px 40px;
-  font-size: 20px;
-  background: green;
-  color: white;
-  border: none;
-  border-radius: 10px;
-}
-html, body {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-/* --- HOME SCREEN BACKGROUND --- */
-#home-screen {
-  background: url("background.jpg") no-repeat center center;
-  background-size: cover;
+  transform: translate(-50%, -50%);
+  width: 85%;
+  max-width: 400px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 20px;
+  border-radius: 12px;
+  text-align: left;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
-/* Wrapper to control positioning */
-.home-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  height: 100vh;
-  padding-top: 00px; /* tweak this later */
+.rules-box h2 {
+  text-align: center;
+  margin-bottom: 10px;
 }
 
-/* Main image */
-.home-image {
-  max-width: 100%;
-  max-height: 100vh;
-  object-fit: contain;
+.rules-box ul {
+  padding-left: 18px;
+}
+
+.rules-box button {
   display: block;
+  margin: 15px auto 0;
 }
