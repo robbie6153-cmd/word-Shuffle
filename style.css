@@ -203,3 +203,8 @@ button:active {
   border: none;
   border-radius: 10px;
 }
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
