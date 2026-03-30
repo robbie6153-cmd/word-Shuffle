@@ -3,34 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Word Scramble</title>
+  <title>Word Shuffle</title>
 
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+
 <!-- HOME SCREEN -->
 <div id="home-screen" class="screen active">
   <img src="homepage.jpg" class="bg-image">
-
   <button class="play-btn" onclick="showRules()">PLAY NOW</button>
 </div>
 
 <!-- RULES SCREEN -->
 <div id="rules-screen" class="screen">
   <img src="background.jpg" class="bg-image">
-
   <h2 class="rules-title">How To Play</h2>
-
-  <!-- Leave blank for now -->
-  
   <button class="start-btn" onclick="startGame()">START GAME</button>
 </div>
 
 <!-- GAME SCREEN -->
 <div id="game-screen" class="screen">
-  <!-- Your existing game goes here -->
-</div>
+
   <div id="gameContainer">
 
     <!-- TOP BAR -->
@@ -59,7 +54,9 @@
     </div>
   </div>
 
-  <!-- GAME SCRIPT -->
+</div>
+
+<!-- SCRIPTS -->
 <script src="dictionary.js"></script>
 <script src="game.js"></script>
 
