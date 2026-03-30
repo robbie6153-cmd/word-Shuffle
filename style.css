@@ -1,4 +1,8 @@
-/* -------------------------
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}/* -------------------------
    GENERAL PAGE
 ------------------------- */
 body {
@@ -221,12 +225,13 @@ html, body {
   justify-content: center;
   align-items: flex-start;
   height: 100vh;
-  padding-top: 20px; /* tweak this later */
+  padding-top: 00px; /* tweak this later */
 }
 
 /* Main image */
 .home-image {
   max-width: 100%;
-  max-height: 90vh;
+  max-height: 100vh;
   object-fit: contain;
+  display: block;
 }
