@@ -148,3 +148,58 @@ button:active {
 #endContent h2 {
   margin-bottom: 20px;
 }
+/* General screen setup */
+.screen {
+  display: none;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+.screen.active {
+  display: block;
+}
+
+/* Background images */
+.bg-image {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+}
+
+/* Play button (home screen) */
+.play-btn {
+  position: absolute;
+  bottom: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 15px 40px;
+  font-size: 20px;
+  background: green;
+  color: white;
+  border: none;
+  border-radius: 10px;
+}
+
+/* Rules title */
+.rules-title {
+  position: absolute;
+  top: 20%;
+  width: 100%;
+  text-align: center;
+  color: white;
+}
+
+/* Start button */
+.start-btn {
+  position: absolute;
+  bottom: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 15px 40px;
+  font-size: 20px;
+  background: green;
+  color: white;
+  border: none;
+  border-radius: 10px;
+}

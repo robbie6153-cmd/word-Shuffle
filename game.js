@@ -355,3 +355,17 @@ playAgainBtn.onclick = resetGame;
 
 // INIT
 resetGame();
+function showRules() {
+  document.getElementById("home-screen").classList.remove("active");
+  document.getElementById("rules-screen").classList.add("active");
+}
+
+function startGame() {
+  document.getElementById("rules-screen").classList.remove("active");
+  document.getElementById("game-screen").classList.add("active");
+
+  // Only call this if your game has a start function
+  if (typeof startGameLogic === "function") {
+    startGameLogic();
+  }
+}
