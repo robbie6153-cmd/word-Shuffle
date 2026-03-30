@@ -209,3 +209,24 @@ html, body {
   padding: 0;
   overflow: hidden;
 }
+/* --- HOME SCREEN BACKGROUND --- */
+#home-screen {
+  background: url("background.jpg") no-repeat center center;
+  background-size: cover;
+}
+
+/* Wrapper to control positioning */
+.home-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+  padding-top: 20px; /* tweak this later */
+}
+
+/* Main image */
+.home-image {
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+}
