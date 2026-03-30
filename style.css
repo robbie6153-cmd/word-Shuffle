@@ -185,6 +185,7 @@ button:active {
   max-height: 100vh;
   object-fit: contain;
   display: block;
+  pointer-events: none;
 }
 
 /* -------------------------
@@ -192,7 +193,7 @@ button:active {
 ------------------------- */
 .play-btn {
   position: absolute;
-  top: 68%;
+  top: 70%;
   left: 50%;
   transform: translateX(-50%);
   width: 48%;
