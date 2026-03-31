@@ -178,6 +178,7 @@ button:active {
   align-items: flex-start;
   height: 100vh;
   padding-top: 0;
+  position: relative;
 }
 
 .home-image {
@@ -193,19 +194,16 @@ button:active {
 ------------------------- */
 .play-btn {
   position: absolute;
-  top: 70%;
+  bottom: 18%; /* instead of top */
   left: 50%;
   transform: translateX(-50%);
-  width: 48%;
-  height: 70px;
+  width: 55%;
+  height: 80px;
   background: transparent;
-  color: transparent;
   border: none;
   border-radius: 20px;
-  cursor: pointer;
   z-index: 10;
 }
-
 /* -------------------------
    RULES BOX
 ------------------------- */
