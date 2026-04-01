@@ -30,6 +30,7 @@ const endScreenEl = document.getElementById("endScreen");
 const endMessageEl = document.getElementById("endMessage");
 const playAgainBtn = document.getElementById("playAgainBtn");
 const homeBtn = document.getElementById("homeBtn");
+const comboPopup = document.getElementById("comboPopup");
 
 // Dictionary
 function getDictionarySet() {
@@ -234,15 +235,21 @@ function submitWord() {
     return;
   }
 
-  let pts = basePoints(word.length) + frozenRoundMultiplier;
+ let comboBonus = frozenRoundMultiplier;
+let pts = basePoints(word.length) + comboBonus;
 
-  if (word === fullChainWord) {
-    pts += 10;
-  }
+if (word === fullChainWord) {
+  pts += 10;
+}
 
-  score += pts;
-  usedWords.add(word);
-  frozenRoundMultiplier++;
+score += pts;
+usedWords.add(word);
+
+if (comboBonus > 0) {
+  showComboPopup(comboBonus);
+}
+
+frozenRoundMultiplier++;
 
   scoreEl.textContent = score;
   messageEl.textContent = `${word} scored ${pts} points`;
@@ -374,4 +381,12 @@ function startGame() {
   if (typeof startGameLogic === "function") {
     startGameLogic();
   }
+}
+function showComboPopup(amount) {
+  comboPopup.textContent = `Combo +${amount}`;
+  comboPopup.classList.remove("show");
+
+  void comboPopup.offsetWidth; // restart animation
+
+  comboPopup.classList.add("show");
 }

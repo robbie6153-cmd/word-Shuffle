@@ -263,7 +263,37 @@ button:active {
   display: block;
   margin: 15px auto 0;
 }
+#comboPopup {
+  position: fixed;
+  left: 50%;
+  top: 55%;
+  transform: translateX(-50%);
+  font-size: 28px;
+  font-weight: bold;
+  color: #ff2d55;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 20;
+}
 
+#comboPopup.show {
+  animation: comboFloat 1s ease-out forwards;
+}
+
+@keyframes comboFloat {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(0);
+  }
+  15% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-140px) translateY(-180px);
+  }
+}
 /* -------------------------
    MOBILE
 ------------------------- */
