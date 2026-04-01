@@ -415,12 +415,6 @@ t.onpointerup = () => {
   });
 }
 
-document.addEventListener("pointerup", ()=>{
-  if (isDragging){
-    isDragging = false;
-    submitWord();
-  }
-});
 
 freezeBtn.onclick = freezeGrid;
 playAgainBtn.onclick = resetGame;
