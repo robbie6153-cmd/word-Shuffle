@@ -75,9 +75,11 @@ body {
   background: transparent;
   box-shadow: none;
   cursor: default;
-}
+
 .frozen-background {
-  background: rgb(238, 156, 169) !important;
+  background:
+    linear-gradient(rgba(233, 187, 196, 0.4), rgba(255, 105, 135, 0.4)),
+    url("./background.jpg") center/cover no-repeat !important;
 }
 /* -------------------------
    SELECTED TILE (WORD SWIPE)
