@@ -264,7 +264,7 @@ function submitWord() {
 
   const liveDictionary =
     (typeof getDictionaryArray === "function" && getDictionaryArray().length > 0)
-       ? new Set(getDictionaryArray().map(word => word.toUpperCase()))
+      ? new Set(getDictionaryArray().map(word => word.toUpperCase()))
       : DICTIONARY;
 
   if (!liveDictionary.has(word)) {
@@ -279,38 +279,39 @@ function submitWord() {
     return;
   }
 
- let comboBonus = frozenRoundMultiplier;
-let pts = basePoints(word.length) + comboBonus;
+  let comboBonus = frozenRoundMultiplier;
+  let pts = basePoints(word.length) + comboBonus;
 
-usedWords.add(word);
-foundWords.push(word);
+  usedWords.add(word);
+  foundWords.push(word);
 
-let chainJustCompleted = false;
-const completedChain = findCompletedChain(foundWords);
+  let chainJustCompleted = false;
+  const completedChain = findCompletedChain(foundWords);
 
-if (completedChain && !chainBonusAwarded) {
-  pts += 10;
-  chainBonusAwarded = true;
-  chainJustCompleted = true;
-}
+  if (completedChain && !chainBonusAwarded) {
+    pts += 10;
+    chainBonusAwarded = true;
+    chainJustCompleted = true;
+  }
 
-score += pts;
+  score += pts;
 
-if (comboBonus > 0) {
-  showComboPopup(comboBonus);
-}
+  if (comboBonus > 0) {
+    showComboPopup(comboBonus);
+  }
 
-frozenRoundMultiplier++;
+  frozenRoundMultiplier++;
 
   scoreEl.textContent = score;
+
   if (chainJustCompleted) {
-  messageEl.textContent = `Chain bonus! ${completedChain.w3} → ${completedChain.w4} → ${completedChain.w5} (+10)`;
-} else {
-  messageEl.textContent = `${word} scored ${pts} points`;
-}
+    messageEl.textContent = `Chain bonus! ${completedChain.w3} → ${completedChain.w4} → ${completedChain.w5} (+10)`;
+  } else {
+    messageEl.textContent = `${word} scored ${pts} points`;
+  }
+
   clearSelection();
 }
-
 function freezeGrid(){
   frozen = !frozen;
 
