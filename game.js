@@ -256,10 +256,14 @@ function freezeGrid(){
   if (frozen){
     frozenRoundMultiplier = 0;
     freezeBtn.textContent = "Unfreeze";
+    freezeBtn.classList.add("freeze-active");
   } else {
     freezeBtn.textContent = "Freeze Grid";
+    freezeBtn.classList.remove("freeze-active");
     clearSelection();
   }
+
+  renderBoard();
 }
 
 function startTimer(){
