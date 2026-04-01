@@ -385,23 +385,30 @@ function renderBoard(){
 
     if (selectedPath.includes(i)) t.classList.add("selected");
 
-   t.onpointerup = () => {
-  if (!frozen) {
-    moveTile(i);
-  }
+   t.onpointerdown = () => {
+  if (!frozen) return;
+
+  isDragging = true;
+  selectedPath = [];
+  currentDirection = null;
+  extendSelection(i);
 };
 
-    t.onpointerdown = ()=>{
-      if (!frozen) return;
-      isDragging = true;
-      selectedPath = [];
-      currentDirection = null;
-      extendSelection(i);
-    };
-
-    t.onpointermove = () => {
+t.onpointermove = () => {
   if (!isDragging) return;
   extendSelection(i);
+};
+
+t.onpointerup = () => {
+  if (!frozen) {
+    moveTile(i);
+    return;
+  }
+
+  if (isDragging) {
+    isDragging = false;
+    submitWord();
+  }
 };
 
     boardEl.appendChild(t);
