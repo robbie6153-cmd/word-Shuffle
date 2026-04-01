@@ -234,7 +234,7 @@ function submitWord() {
     return;
   }
 
-  let pts = basePoints(word.length) * frozenRoundMultiplier;
+  let pts = basePoints(word.length) + frozenRoundMultiplier;
 
   if (word === fullChainWord) {
     pts += 10;
@@ -254,7 +254,7 @@ function freezeGrid(){
   frozen = !frozen;
 
   if (frozen){
-    frozenRoundMultiplier = 2;
+    frozenRoundMultiplier = 0;
     freezeBtn.textContent = "Unfreeze";
   } else {
     freezeBtn.textContent = "Freeze Grid";
