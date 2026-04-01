@@ -58,7 +58,20 @@ const CHAIN_FAMILIES = [
   { w3: "INK", w4: "LINK", w5: "BLINK" },
   { w3: "AIR", w4: "HAIR", w5: "CHAIR" },
   { w3: "ICE", w4: "MICE", w5: "SLICE" },
-  { w3: "ATE", w4: "LATE", w5: "PLATE" }
+  { w3: "ATE", w4: "LATE", w5: "PLATE" },
+  { w3: "WEE", w4: "WEED", w5: "TWEED" },
+  { w3: "HAT", w4: "CHAT", w5: "CHATS" },
+  { w3: "ICE", w4: "DICE", w5: "DICED" },
+  { w3: "ATE", w4: "MATE", w5: "MATES" },
+  { w3: "ARE", w4: "AREA", w5: "AREAS" },
+  { w3: "CAR", w4: "CARD", w5: "CARDS" },
+  { w3: "BAR", w4: "BARE", w5: "BARED" },
+  { w3: "TEN", w4: "TEND", w5: "TENDS" },
+  { w3: "EAR", w4: "EARN", w5: "YEARN" },
+  { w3: "ALL", w4: "BALL", w5: "BALLS" },
+  { w3: "ASH", w4: "WASH", w5: "WASHY" },
+  { w3: "OWN", w4: "DOWN", w5: "DROWN" },
+  { w3: "LAY", w4: "PLAY", w5: "PLAYS" }
 ];
 
 // Weighted letters
@@ -111,28 +124,59 @@ function shuffleArray(arr, rng) {
 function pickWeightedLetter(rng) {
   return LETTER_POOL[Math.floor(rng() * LETTER_POOL.length)];
 }
+function boardHasWord(board, word) {
+  const letters = board.filter(cell => cell !== "");
+  const counts = {};
 
+  for (const ch of letters) {
+    counts[ch] = (counts[ch] || 0) + 1;
+  }
+
+  for (const ch of word) {
+    if (!counts[ch]) return false;
+    counts[ch]--;
+  }
+
+  return true;
+}
+
+function boardHasAnyChain(board) {
+  for (const chain of CHAIN_FAMILIES) {
+    if (
+      boardHasWord(board, chain.w3) &&
+      boardHasWord(board, chain.w4) &&
+      boardHasWord(board, chain.w5)
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
 // Build puzzle
 function buildDailyPuzzle() {
   const seed = getDailySeed();
-  const rng = mulberry32(seed);
 
-  const chain = CHAIN_FAMILIES[Math.floor(rng() * CHAIN_FAMILIES.length)];
-  fullChainWord = chain.w5;
+  let attempt = 0;
 
-  const guaranteed = chain.w5.split("");
+  while (true) {
+    const rng = mulberry32(seed + attempt);
 
-  const extras = [];
-  for (let i = 0; i < TILE_COUNT - guaranteed.length; i++) {
-    extras.push(pickWeightedLetter(rng));
+    const letters = [];
+    for (let i = 0; i < TILE_COUNT; i++) {
+      letters.push(pickWeightedLetter(rng));
+    }
+
+    const shuffledLetters = shuffleArray(letters, rng);
+    const candidateBoard = [...shuffledLetters, ""];
+
+    if (boardHasAnyChain(candidateBoard)) {
+      return {
+        board: candidateBoard
+      };
+    }
+
+    attempt++;
   }
-
-  const letters = shuffleArray([...guaranteed, ...extras], rng);
-
-  return {
-    board: [...letters, ""],
-    chain
-  };
 }
 
 // Helpers
