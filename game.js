@@ -385,14 +385,10 @@ function renderBoard(){
 
     if (selectedPath.includes(i)) t.classList.add("selected");
 
-    t.onpointerup = () => {
+   t.onpointerup = () => {
   if (!frozen) {
     moveTile(i);
-    return;
   }
-
-  isDragging = false;
-  submitWord();
 };
 
     t.onpointerdown = ()=>{
