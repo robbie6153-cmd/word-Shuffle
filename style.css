@@ -76,7 +76,9 @@ body {
   box-shadow: none;
   cursor: default;
 }
-
+.frozen-background {
+  background: rgb(238, 156, 169) !important;
+}
 /* -------------------------
    SELECTED TILE (WORD SWIPE)
 ------------------------- */

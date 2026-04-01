@@ -257,9 +257,11 @@ function freezeGrid(){
     frozenRoundMultiplier = 0;
     freezeBtn.textContent = "Unfreeze";
     freezeBtn.classList.add("freeze-active");
+    document.body.classList.add("frozen-background");
   } else {
     freezeBtn.textContent = "Freeze Grid";
     freezeBtn.classList.remove("freeze-active");
+    document.body.classList.remove("frozen-background");
     clearSelection();
   }
 
