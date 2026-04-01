@@ -264,7 +264,7 @@ function submitWord() {
 
   const liveDictionary =
     (typeof getDictionaryArray === "function" && getDictionaryArray().length > 0)
-      ? new Set(getDictionaryArray())
+       ? new Set(getDictionaryArray().map(word => word.toUpperCase()))
       : DICTIONARY;
 
   if (!liveDictionary.has(word)) {
@@ -282,12 +282,19 @@ function submitWord() {
  let comboBonus = frozenRoundMultiplier;
 let pts = basePoints(word.length) + comboBonus;
 
-if (word === fullChainWord) {
+usedWords.add(word);
+foundWords.push(word);
+
+let chainJustCompleted = false;
+const completedChain = findCompletedChain(foundWords);
+
+if (completedChain && !chainBonusAwarded) {
   pts += 10;
+  chainBonusAwarded = true;
+  chainJustCompleted = true;
 }
 
 score += pts;
-usedWords.add(word);
 
 if (comboBonus > 0) {
   showComboPopup(comboBonus);
@@ -296,8 +303,11 @@ if (comboBonus > 0) {
 frozenRoundMultiplier++;
 
   scoreEl.textContent = score;
+  if (chainJustCompleted) {
+  messageEl.textContent = `Chain bonus! ${completedChain.w3} → ${completedChain.w4} → ${completedChain.w5} (+10)`;
+} else {
   messageEl.textContent = `${word} scored ${pts} points`;
-
+}
   clearSelection();
 }
 
@@ -350,7 +360,8 @@ function resetGame(){
   gameEnded = false;
   frozen = false;
   usedWords.clear();
-
+foundWords = [];
+chainBonusAwarded = false;
   scoreEl.textContent = score;
   timerEl.textContent = timeLeft;
   freezeBtn.textContent = "Freeze Grid";
