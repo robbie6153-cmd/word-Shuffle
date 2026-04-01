@@ -12,6 +12,8 @@ let gameEnded = false;
 let frozen = false;
 
 let usedWords = new Set();
+let foundWords = [];
+let chainBonusAwarded = false;
 let frozenRoundMultiplier = 2;
 let selectedPath = [];
 let isDragging = false;
@@ -35,7 +37,7 @@ const comboPopup = document.getElementById("comboPopup");
 // Dictionary
 function getDictionarySet() {
   if (typeof getDictionaryArray === "function" && getDictionaryArray().length > 0) {
-    return new Set(getDictionaryArray());
+    return new Set(getDictionaryArray().map(word => word.toUpperCase()));
   }
 
   return new Set([
@@ -51,7 +53,58 @@ function getDictionarySet() {
 }
 
 let DICTIONARY = new Set();
+DICTIONARY = getDictionarySet();
+function getLetterCounts(word) {
+  const counts = {};
+  for (const ch of word) {
+    counts[ch] = (counts[ch] || 0) + 1;
+  }
+  return counts;
+}
 
+function canBuildByAddingOneLetter(shorter, longer) {
+  shorter = shorter.toUpperCase();
+  longer = longer.toUpperCase();
+
+  if (longer.length !== shorter.length + 1) return false;
+
+  const shortCounts = getLetterCounts(shorter);
+  const longCounts = getLetterCounts(longer);
+
+  let extraLetters = 0;
+
+  for (const ch in longCounts) {
+    const shortCount = shortCounts[ch] || 0;
+    const diff = longCounts[ch] - shortCount;
+
+    if (diff < 0) return false;
+    extraLetters += diff;
+  }
+
+  return extraLetters === 1;
+}
+
+function findCompletedChain(words) {
+  const uniqueWords = [...new Set(words.map(w => w.toUpperCase()))];
+
+  const words3 = uniqueWords.filter(w => w.length === 3);
+  const words4 = uniqueWords.filter(w => w.length === 4);
+  const words5 = uniqueWords.filter(w => w.length === 5);
+
+  for (const w3 of words3) {
+    for (const w4 of words4) {
+      if (!canBuildByAddingOneLetter(w3, w4)) continue;
+
+      for (const w5 of words5) {
+        if (canBuildByAddingOneLetter(w4, w5)) {
+          return { w3, w4, w5 };
+        }
+      }
+    }
+  }
+
+  return null;
+}
 // Chains
 const CHAIN_FAMILIES = [
   { w3: "END", w4: "LEND", w5: "BLEND" },
