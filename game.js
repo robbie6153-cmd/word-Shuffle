@@ -382,40 +382,37 @@ function renderBoard(){
     t.textContent = l;
 
     if (l==="") t.classList.add("blank");
-
     if (selectedPath.includes(i)) t.classList.add("selected");
 
-   t.onpointerdown = () => {
-  if (!frozen) return;
+    t.onpointerdown = () => {
+      if (!frozen) return;
 
-  isDragging = true;
-  selectedPath = [];
-  currentDirection = null;
-  extendSelection(i);
-};
+      isDragging = true;
+      selectedPath = [];
+      currentDirection = null;
+      extendSelection(i);
+    };
 
-t.onpointermove = () => {
-  if (!isDragging) return;
-  extendSelection(i);
-};
+    t.onpointermove = () => {
+      if (!isDragging) return;
+      extendSelection(i);
+    };
 
-t.onpointerup = () => {
-  if (!frozen) {
-    moveTile(i);
-    return;
-  }
-
-  if (isDragging) {
-    isDragging = false;
-    submitWord();
-  }
-};
+    t.onpointerup = () => {
+      if (!frozen) {
+        moveTile(i);
+      }
+    };
 
     boardEl.appendChild(t);
   });
 }
-
-
+document.addEventListener("pointerup", () => {
+  if (isDragging) {
+    isDragging = false;
+    submitWord();
+  }
+});
 freezeBtn.onclick = freezeGrid;
 playAgainBtn.onclick = resetGame;
 
