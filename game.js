@@ -365,6 +365,17 @@ function submitWord() {
 
   clearSelection();
 }
+function showChainBonus(points) {
+  const bonus = document.createElement("div");
+  bonus.className = "chain-bonus";
+  bonus.textContent = `CHAIN BONUS +${points}`;
+
+  document.body.appendChild(bonus);
+
+  setTimeout(() => {
+    bonus.remove();
+  }, 800);
+}
 function freezeGrid(){
   frozen = !frozen;
 
