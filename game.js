@@ -363,13 +363,18 @@ function submitWord() {
   }
 
   clearSelection();
-}
+
 function showChainBonus(points) {
   const bonus = document.createElement("div");
   bonus.className = "chain-bonus";
   bonus.textContent = `CHAIN BONUS +${points}`;
 
   document.body.appendChild(bonus);
+
+  // Force visible immediately
+  requestAnimationFrame(() => {
+    bonus.style.opacity = "1";
+  });
 
   setTimeout(() => {
     bonus.remove();
