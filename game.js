@@ -13,7 +13,7 @@ let frozen = false;
 
 let usedWords = new Set(); // will store "WORD-right" or "WORD-down"
 let foundWords = [];
-let chainBonusAwarded = false;
+let awardedChains = new Set();
 let frozenRoundMultiplier = 2;
 let selectedPath = [];
 let isDragging = false;
@@ -340,13 +340,17 @@ function submitWord() {
   foundWords.push(word);
 
   let chainJustCompleted = false;
-  const completedChain = findCompletedChain(foundWords);
+const completedChain = findCompletedChain(foundWords);
 
-  if (completedChain && !chainBonusAwarded) {
+if (completedChain) {
+  const chainKey = `${completedChain.w3}-${completedChain.w4}-${completedChain.w5}`;
+
+  if (!awardedChains.has(chainKey)) {
     pts += 10;
-    chainBonusAwarded = true;
+    awardedChains.add(chainKey);
     chainJustCompleted = true;
   }
+}
 
   score += pts;
 
@@ -433,7 +437,7 @@ function resetGame(){
   frozen = false;
   usedWords.clear();
 foundWords = [];
-chainBonusAwarded = false;
+awardedChains.clear();
   scoreEl.textContent = score;
   timerEl.textContent = timeLeft;
   freezeBtn.textContent = "Freeze Grid";
