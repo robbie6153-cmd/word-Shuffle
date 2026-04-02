@@ -11,7 +11,7 @@ let timerInterval = null;
 let gameEnded = false;
 let frozen = false;
 
-let usedWords = new Set();
+let usedWords = new Set(); // will store "WORD-right" or "WORD-down"
 let foundWords = [];
 let chainBonusAwarded = false;
 let frozenRoundMultiplier = 2;
@@ -314,6 +314,7 @@ function submitWord() {
   }
 
   const word = getWord(selectedPath).toUpperCase();
+  let direction = isRight(selectedPath) ? "right" : "down";
 
   const liveDictionary =
     (typeof getDictionaryArray === "function" && getDictionaryArray().length > 0)
@@ -326,16 +327,16 @@ function submitWord() {
     return;
   }
 
-  if (usedWords.has(word)) {
-    messageEl.textContent = `"${word}" already used`;
-    clearSelection();
-    return;
-  }
+  if (usedWords.has(word + "-" + direction)) {
+  messageEl.textContent = `"${word}" already used in that direction`;
+  clearSelection();
+  return;
+}
 
   let comboBonus = frozenRoundMultiplier;
   let pts = basePoints(word.length) + comboBonus;
 
-  usedWords.add(word);
+  usedWords.add(word + "-" + direction);
   foundWords.push(word);
 
   let chainJustCompleted = false;
