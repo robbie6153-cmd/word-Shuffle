@@ -354,15 +354,17 @@ function submitWord() {
   }
 
   frozenRoundMultiplier++;
-
   scoreEl.textContent = score;
 
-  showChainBonus(10);
+  if (chainJustCompleted) {
+    showChainBonus(10);
+    messageEl.textContent = `Chain bonus! ${word} scored ${pts} points`;
   } else {
     messageEl.textContent = `${word} scored ${pts} points`;
   }
 
   clearSelection();
+}
 
 function showChainBonus(points) {
   const bonus = document.createElement("div");

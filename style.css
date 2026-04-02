@@ -310,19 +310,15 @@ button:active {
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
-
   font-size: 28px;
   font-weight: bold;
   color: red;
-
-  opacity: 0;
+  opacity: 1;
   pointer-events: none;
   z-index: 9999;
   text-shadow: 2px 2px 4px black;
-
   animation: flashChain 0.8s ease-out forwards;
 }
-
 /* Flash animation */
 @keyframes flashChain {
   0% {
