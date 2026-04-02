@@ -358,7 +358,7 @@ function submitWord() {
   scoreEl.textContent = score;
 
   if (chainJustCompleted) {
-    messageEl.textContent = `Chain bonus! ${completedChain.w3} → ${completedChain.w4} → ${completedChain.w5} (+10)`;
+   showChainBonus(10); // or whatever your chain bonus is
   } else {
     messageEl.textContent = `${word} scored ${pts} points`;
   }
