@@ -84,7 +84,7 @@ function canBuildByAddingOneLetter(shorter, longer) {
   return extraLetters === 1;
 }
 
-function findCompletedChain(words) {
+function findCompletedChain(words, awardedChains = new Set()) {
   const uniqueWords = [...new Set(words.map(w => w.toUpperCase()))];
 
   const words3 = uniqueWords.filter(w => w.length === 3);
@@ -96,7 +96,11 @@ function findCompletedChain(words) {
       if (!canBuildByAddingOneLetter(w3, w4)) continue;
 
       for (const w5 of words5) {
-        if (canBuildByAddingOneLetter(w4, w5)) {
+        if (!canBuildByAddingOneLetter(w4, w5)) continue;
+
+        const chainKey = `${w3}-${w4}-${w5}`;
+
+        if (!awardedChains.has(chainKey)) {
           return { w3, w4, w5 };
         }
       }
@@ -340,7 +344,7 @@ function submitWord() {
   foundWords.push(word);
 
   let chainJustCompleted = false;
-const completedChain = findCompletedChain(foundWords);
+const completedChain = findCompletedChain(foundWords, awardedChains);
 
 if (completedChain) {
   const chainKey = `${completedChain.w3}-${completedChain.w4}-${completedChain.w5}`;
