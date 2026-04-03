@@ -339,7 +339,7 @@ function submitWord() {
   }
 
   const word = getWord(selectedPath).toUpperCase();
-  let direction = isRight(selectedPath) ? "right" : "down";
+  const direction = isRight(selectedPath) ? "right" : "down";
 
   const liveDictionary =
     (typeof getDictionaryArray === "function" && getDictionaryArray().length > 0)
@@ -467,7 +467,10 @@ awardedChains.clear();
   endScreenEl.style.display = "none";
 
   renderBoard();
+  function startGame() {
+  resetGame();
   startTimer();
+}
 }
 
 function renderBoard(){
