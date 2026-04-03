@@ -213,7 +213,17 @@ width: 100%;
   height: auto;
   pointer-events: none;
 }
+@media (max-width: 768px) {
+  .play-btn {
+    bottom: 14%;
+  }
+}
 
+@media (min-width: 769px) {
+  .home-wrapper {
+    max-width: 700px;
+  }
+}
 /* -------------------------
    INVISIBLE PLAY BUTTON
 ------------------------- */
