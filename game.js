@@ -1,4 +1,3 @@
-
 const GAME_TIME = 200;
 const GRID_SIZE = 5;
 const TILE_COUNT = 24;
@@ -13,7 +12,6 @@ let frozen = false;
 
 let usedWords = new Set(); // will store "WORD-right" or "WORD-down"
 let foundWords = [];
-let awardedChains = new Set();
 let frozenRoundMultiplier = 2;
 let selectedPath = [];
 let isDragging = false;
@@ -21,6 +19,7 @@ let currentDirection = null;
 
 let currentPuzzle = null;
 let fullChainWord = "";
+let awardedChainBonuses = new Set();
 
 // DOM
 const boardEl = document.getElementById("board");
@@ -54,6 +53,7 @@ function getDictionarySet() {
 
 let DICTIONARY = new Set();
 DICTIONARY = getDictionarySet();
+
 function getLetterCounts(word) {
   const counts = {};
   for (const ch of word) {
@@ -84,23 +84,18 @@ function canBuildByAddingOneLetter(shorter, longer) {
   return extraLetters === 1;
 }
 
-let awardedChainBonuses = new Set();
-
 function checkChainBonus(foundWords) {
   const foundSet = new Set(foundWords.map(w => w.toUpperCase()));
   let bonus = 0;
 
-  // Look through every found 5-letter word
   for (const w5 of foundSet) {
     if (w5.length !== 5) continue;
 
-    // All possible 4-letter slices inside the 5-letter word
     const fourLetterSlices = [
       w5.slice(0, 4),
       w5.slice(1, 5)
     ];
 
-    // All possible 3-letter slices inside the 5-letter word
     const threeLetterSlices = [
       w5.slice(0, 3),
       w5.slice(1, 4),
@@ -125,6 +120,7 @@ function checkChainBonus(foundWords) {
 
   return bonus;
 }
+
 // Chains
 const CHAIN_FAMILIES = [
   { w3: "END", w4: "LEND", w5: "BLEND" },
@@ -145,7 +141,6 @@ const CHAIN_FAMILIES = [
   { w3: "ASH", w4: "WASH", w5: "WASHY" },
   { w3: "OWN", w4: "DOWN", w5: "DROWN" },
   { w3: "LAY", w4: "PLAY", w5: "PLAYS" },
-
   { w3: "BIN", w4: "BING", w5: "BINGO" },
   { w3: "BIN", w4: "BING", w5: "BINGE" },
   { w3: "BIN", w4: "BING", w5: "BINGS" },
@@ -202,6 +197,7 @@ function shuffleArray(arr, rng) {
 function pickWeightedLetter(rng) {
   return LETTER_POOL[Math.floor(rng() * LETTER_POOL.length)];
 }
+
 function boardHasWord(board, word) {
   const letters = board.filter(cell => cell !== "");
   const counts = {};
@@ -230,10 +226,9 @@ function boardHasAnyChain(board) {
   }
   return false;
 }
-// Build puzzle
+
 function buildDailyPuzzle() {
   const seed = getDailySeed();
-
   let attempt = 0;
 
   while (true) {
@@ -248,9 +243,7 @@ function buildDailyPuzzle() {
     const candidateBoard = [...shuffledLetters, ""];
 
     if (boardHasAnyChain(candidateBoard)) {
-      return {
-        board: candidateBoard
-      };
+      return { board: candidateBoard };
     }
 
     attempt++;
@@ -258,14 +251,14 @@ function buildDailyPuzzle() {
 }
 
 // Helpers
-function rowOf(i){ return Math.floor(i / GRID_SIZE); }
-function colOf(i){ return i % GRID_SIZE; }
+function rowOf(i) { return Math.floor(i / GRID_SIZE); }
+function colOf(i) { return i % GRID_SIZE; }
 
-function areAdjacent(a,b){
-  return Math.abs(rowOf(a)-rowOf(b)) + Math.abs(colOf(a)-colOf(b)) === 1;
+function areAdjacent(a, b) {
+  return Math.abs(rowOf(a) - rowOf(b)) + Math.abs(colOf(a) - colOf(b)) === 1;
 }
 
-function moveTile(i){
+function moveTile(i) {
   if (gameEnded || frozen) return;
   if (!areAdjacent(i, blankIndex)) return;
 
@@ -274,53 +267,54 @@ function moveTile(i){
   renderBoard();
 }
 
-function getWord(path){
+function getWord(path) {
   return path.map(i => board[i]).join("");
 }
 
-function isRight(path){
+function isRight(path) {
   const r = rowOf(path[0]);
-  return path.every((p,i)=> i===0 || (rowOf(p)===r && p===path[i-1]+1));
+  return path.every((p, i) => i === 0 || (rowOf(p) === r && p === path[i - 1] + 1));
 }
 
-function isDown(path){
+function isDown(path) {
   const c = colOf(path[0]);
-  return path.every((p,i)=> i===0 || (colOf(p)===c && p===path[i-1]+GRID_SIZE));
+  return path.every((p, i) => i === 0 || (colOf(p) === c && p === path[i - 1] + GRID_SIZE));
 }
 
-function basePoints(len){
-  if (len===3) return 1;
-  if (len===4) return 2;
-  if (len===5) return 3;
+function basePoints(len) {
+  if (len === 3) return 1;
+  if (len === 4) return 2;
+  if (len === 5) return 3;
   return 0;
 }
-function clearSelection(){
+
+function clearSelection() {
   selectedPath = [];
   isDragging = false;
   currentDirection = null;
   renderBoard();
 }
 
-function extendSelection(i){
-  if (!frozen || board[i]==="") return;
+function extendSelection(i) {
+  if (!frozen || board[i] === "") return;
 
-  if (selectedPath.length===0){
+  if (selectedPath.length === 0) {
     selectedPath.push(i);
     return renderBoard();
   }
 
-  const last = selectedPath[selectedPath.length-1];
+  const last = selectedPath[selectedPath.length - 1];
 
   const dir =
-    (rowOf(last)===rowOf(i) && i===last+1) ? "right" :
-    (colOf(last)===colOf(i) && i===last+GRID_SIZE) ? "down" : null;
+    (rowOf(last) === rowOf(i) && i === last + 1) ? "right" :
+    (colOf(last) === colOf(i) && i === last + GRID_SIZE) ? "down" : null;
 
   if (!dir) return;
 
-  if (!currentDirection){
+  if (!currentDirection) {
     currentDirection = dir;
     selectedPath.push(i);
-  } else if (dir===currentDirection){
+  } else if (dir === currentDirection) {
     selectedPath.push(i);
   }
 
@@ -353,46 +347,46 @@ function submitWord() {
   }
 
   if (usedWords.has(word + "-" + direction)) {
-  messageEl.textContent = `"${word}" already used in that direction`;
+    messageEl.textContent = `"${word}" already used in that direction`;
+    clearSelection();
+    return;
+  }
+
+  let comboBonus = frozenRoundMultiplier;
+  let pts = basePoints(word.length) + comboBonus;
+
+  usedWords.add(word + "-" + direction);
+
+  if (!foundWords.includes(word)) {
+    foundWords.push(word);
+  }
+
+  let chainJustCompleted = false;
+  let chainBonus = checkChainBonus(foundWords);
+
+  if (chainBonus > 0) {
+    pts += chainBonus;
+    chainJustCompleted = true;
+  }
+
+  score += pts;
+
+  if (comboBonus > 0) {
+    showComboPopup(comboBonus);
+  }
+
+  frozenRoundMultiplier++;
+  scoreEl.textContent = score;
+
+  if (chainJustCompleted) {
+    showChainBonus(5);
+    messageEl.textContent = `Chain bonus! ${word} scored ${pts} points`;
+  } else {
+    messageEl.textContent = `${word} scored ${pts} points`;
+  }
+
   clearSelection();
-  return;
 }
-
- let comboBonus = frozenRoundMultiplier;
-let pts = basePoints(word.length) + comboBonus;
-usedWords.add(word + "-" + direction);
-if (!foundWords.includes(word)) {
-  foundWords.push(word);
-}
-let chainJustCompleted = false;
-
-// NEW chain logic
-let chainBonus = checkChainBonus(foundWords);
-
-if (chainBonus > 0) {
-  pts += chainBonus;
-  chainJustCompleted = true;
-}
-
-score += pts;
-
-if (comboBonus > 0) {
-  showComboPopup(comboBonus);
-}
-
-frozenRoundMultiplier++;
-scoreEl.textContent = score;
-
-if (chainJustCompleted) {
-  showChainBonus(5);
-  messageEl.textContent = `Chain bonus! ${word} scored ${pts} points`;
-} else {
-  messageEl.textContent = `${word} scored ${pts} points`;
-}
-
-clearSelection();
-}
-
 function showChainBonus(points) {
   const bonus = document.createElement("div");
   bonus.className = "chain-bonus";
@@ -400,7 +394,6 @@ function showChainBonus(points) {
 
   document.body.appendChild(bonus);
 
-  // Force visible immediately
   requestAnimationFrame(() => {
     bonus.style.opacity = "1";
   });
@@ -409,10 +402,11 @@ function showChainBonus(points) {
     bonus.remove();
   }, 800);
 }
-function freezeGrid(){
+
+function freezeGrid() {
   frozen = !frozen;
 
-  if (frozen){
+  if (frozen) {
     frozenRoundMultiplier = 0;
     freezeBtn.textContent = "Unfreeze";
     freezeBtn.classList.add("freeze-active");
@@ -427,7 +421,7 @@ function freezeGrid(){
   renderBoard();
 }
 
-function startTimer(){
+function startTimer() {
   clearInterval(timerInterval);
 
   timerInterval = setInterval(() => {
@@ -440,16 +434,15 @@ function startTimer(){
   }, 1000);
 }
 
-function endGame(){
+function endGame() {
   gameEnded = true;
   clearInterval(timerInterval);
 
   endScreenEl.style.display = "block";
-  endMessageEl.textContent =
-    `Time’s up! You scored ${score}. Come back tomorrow!`;
+  endMessageEl.textContent = `Time’s up! You scored ${score}. Come back tomorrow!`;
 }
 
-function resetGame(){
+function resetGame() {
   const puzzle = buildDailyPuzzle();
 
   board = puzzle.board;
@@ -460,23 +453,34 @@ function resetGame(){
   gameEnded = false;
   frozen = false;
   usedWords.clear();
-foundWords = [];
-awardedChains.clear();
+  foundWords = [];
+  awardedChainBonuses.clear();
+  frozenRoundMultiplier = 2;
+  selectedPath = [];
+  isDragging = false;
+  currentDirection = null;
+
+  freezeBtn.classList.remove("freeze-active");
+  document.body.classList.remove("frozen-background");
+
   scoreEl.textContent = score;
   timerEl.textContent = timeLeft;
   freezeBtn.textContent = "Freeze Grid";
-
+  messageEl.textContent = "";
   endScreenEl.style.display = "none";
 
-renderBoard();
+  renderBoard();
 }
 
 function startGame() {
+  document.getElementById("rules-screen").classList.remove("active");
+  document.getElementById("game-screen").classList.add("active");
+
   resetGame();
   startTimer();
 }
 
-function renderBoard(){
+function renderBoard() {
   boardEl.innerHTML = "";
 
   board.forEach((l, i) => {
@@ -486,6 +490,11 @@ function renderBoard(){
 
     if (l === "") t.classList.add("blank");
     if (selectedPath.includes(i)) t.classList.add("selected");
+
+    t.onclick = () => {
+      if (gameEnded || frozen) return;
+      moveTile(i);
+    };
 
     t.onpointerdown = () => {
       if (!frozen) return;
@@ -509,36 +518,7 @@ function renderBoard(){
     boardEl.appendChild(t);
   });
 }
+
 document.addEventListener("pointerup", () => {
   if (isDragging) {
-    isDragging = false;
-    submitWord();
-  }
-});
-freezeBtn.onclick = freezeGrid;
-playAgainBtn.onclick = resetGame;
-
-// INIT
-resetGame();
-function showRules() {
-  document.getElementById("home-screen").classList.remove("active");
-  document.getElementById("rules-screen").classList.add("active");
-}
-
-function startGame() {
-  document.getElementById("rules-screen").classList.remove("active");
-  document.getElementById("game-screen").classList.add("active");
-
-  // Only call this if your game has a start function
-  if (typeof startGameLogic === "function") {
-    startGameLogic();
-  }
-}
-function showComboPopup(amount) {
-  comboPopup.textContent = `Combo +${amount}`;
-  comboPopup.classList.remove("show");
-
-  void comboPopup.offsetWidth; // restart animation
-
-  comboPopup.classList.add("show");
-}
+    isDragging = false
