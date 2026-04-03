@@ -466,15 +466,17 @@ awardedChains.clear();
 
   endScreenEl.style.display = "none";
 
-  renderBoard();
-  function startGame() {
+renderBoard();
+}
+
+function startGame() {
   resetGame();
   startTimer();
-}
 }
 
 function renderBoard(){
   boardEl.innerHTML = "";
+}
 
   board.forEach((l,i)=>{
     const t = document.createElement("div");
