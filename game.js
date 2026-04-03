@@ -521,5 +521,24 @@ function renderBoard() {
 
 document.addEventListener("pointerup", () => {
   if (isDragging) {
-    isDragging = false
+    isDragging = false;
+    submitWord();
   }
+});
+
+freezeBtn.onclick = freezeGrid;
+playAgainBtn.onclick = startGame;
+
+resetGame();
+
+function showRules() {
+  document.getElementById("home-screen").classList.remove("active");
+  document.getElementById("rules-screen").classList.add("active");
+}
+
+function showComboPopup(amount) {
+  comboPopup.textContent = `Combo +${amount}`;
+  comboPopup.classList.remove("show");
+  void comboPopup.offsetWidth;
+  comboPopup.classList.add("show");
+}
