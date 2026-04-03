@@ -207,8 +207,9 @@ button:active {
 
 .home-image {
   display: block;
+  width: auto;
+  height: 100vh;
   max-width: 100%;
-  height: auto;
   pointer-events: none;
 }
 
