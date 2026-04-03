@@ -399,8 +399,8 @@ button:active {
 }
 
 .contact-link {
-  bottom: 2%;
-  right: 2%;
-  width: 20%;
+  top: 90%;
+  left: 75%;
+  width: 22%;
   height: 8%;
 }
