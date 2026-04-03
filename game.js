@@ -87,27 +87,25 @@ function canBuildByAddingOneLetter(shorter, longer) {
 let awardedChainBonuses = new Set();
 
 function checkChainBonus(word, foundWords) {
-  word = word.toUpperCase();
-
-  if (word.length !== 5) return 0;
-  if (awardedChainBonuses.has(word)) return 0;
-
   const foundSet = new Set(foundWords.map(w => w.toUpperCase()));
+  let bonus = 0;
 
-  for (let i = 0; i <= 2; i++) {
-    const w3 = word.slice(i, i + 3);
+  for (const chain of CHAIN_FAMILIES) {
+    const chainKey = `${chain.w3}|${chain.w4}|${chain.w5}`;
 
-    for (let j = 0; j <= 1; j++) {
-      const w4 = word.slice(j, j + 4);
+    if (awardedChainBonuses.has(chainKey)) continue;
 
-      if (foundSet.has(w3) && foundSet.has(w4)) {
-        awardedChainBonuses.add(word);
-        return 5;
-      }
+    if (
+      foundSet.has(chain.w3) &&
+      foundSet.has(chain.w4) &&
+      foundSet.has(chain.w5)
+    ) {
+      awardedChainBonuses.add(chainKey);
+      bonus += 5;
     }
   }
 
-  return 0;
+  return bonus;
 }
 // Chains
 const CHAIN_FAMILIES = [
@@ -128,7 +126,12 @@ const CHAIN_FAMILIES = [
   { w3: "ALL", w4: "BALL", w5: "BALLS" },
   { w3: "ASH", w4: "WASH", w5: "WASHY" },
   { w3: "OWN", w4: "DOWN", w5: "DROWN" },
-  { w3: "LAY", w4: "PLAY", w5: "PLAYS" }
+  { w3: "LAY", w4: "PLAY", w5: "PLAYS" },
+
+  { w3: "BIN", w4: "BING", w5: "BINGO" },
+  { w3: "BIN", w4: "BING", w5: "BINGE" },
+  { w3: "BIN", w4: "BING", w5: "BINGS" },
+  { w3: "BAN", w4: "BANG", w5: "BANGS" }
 ];
 
 // Weighted letters
