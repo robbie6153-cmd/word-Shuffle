@@ -338,3 +338,69 @@ button:active {
     transform: translate(-50%, -40%) scale(0.9);
   }
 }
+/* HOTSPOTS */
+.hotspot {
+  position: absolute;
+  display: block;
+  z-index: 20;
+}
+
+.home-wrapper {
+  position: relative;
+}/* TOP MENU HOTSPOTS */
+
+.home-link {
+  top: 0.5%;
+  left: 0.5%;
+  width: 11%;
+  height: 7%;
+}
+
+.leaderboard-link {
+  top: 0.5%;
+  left: 12%;
+  width: 16%;
+  height: 7%;
+}
+
+.privacy-link {
+  top: 0.5%;
+  left: 28.5%;
+  width: 21%;
+  height: 7%;
+}
+
+.terms-link {
+  top: 0.5%;
+  left: 49.5%;
+  width: 19%;
+  height: 7%;
+}
+
+.about-link {
+  top: 0.5%;
+  left: 69%;
+  width: 11%;
+  height: 7%;
+}
+
+.settings-link {
+  top: 0.5%;
+  left: 80%;
+  width: 10%;
+  height: 7%;
+}
+
+.profile-link {
+  top: 0.5%;
+  left: 90%;
+  width: 10%;
+  height: 7%;
+}
+
+.contact-link {
+  bottom: 2%;
+  right: 2%;
+  width: 20%;
+  height: 8%;
+}
