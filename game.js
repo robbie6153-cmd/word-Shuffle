@@ -101,7 +101,7 @@ function checkChainBonus(word, usedWords) {
 
       if (usedWords.has(w3) && usedWords.has(w4)) {
         awardedChainBonuses.add(word);
-        return 10;
+        return 5;
       }
     }
   }
@@ -362,7 +362,7 @@ if (chainBonus > 0) {
   scoreEl.textContent = score;
 
   if (chainJustCompleted) {
-    showChainBonus(10);
+    showChainBonus(5);
     messageEl.textContent = `Chain bonus! ${word} scored ${pts} points`;
   } else {
     messageEl.textContent = `${word} scored ${pts} points`;
