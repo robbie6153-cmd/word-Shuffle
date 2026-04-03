@@ -302,13 +302,7 @@ width: 100%;
 /* -------------------------
    MOBILE
 ------------------------- */
-@media (max-width: 768px) {
-  .play-btn {
-    bottom: 32%;
-    width: 58%;
-    height: 75px;
-  }
-}
+
 /* CHAIN BONUS POPUP */
 .chain-bonus {
   position: fixed;
@@ -415,6 +409,8 @@ width: 100%;
 }
 @media screen and (max-width: 768px) {
   .play-btn {
-    bottom: 10% !important;
+    bottom: 14% !important;
+    width: 58%;
+    height: 75px;
   }
 }
