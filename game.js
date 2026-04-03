@@ -522,3 +522,4 @@ function renderBoard() {
 document.addEventListener("pointerup", () => {
   if (isDragging) {
     isDragging = false
+  }
