@@ -86,20 +86,21 @@ function canBuildByAddingOneLetter(shorter, longer) {
 
 let awardedChainBonuses = new Set();
 
-function checkChainBonus(word, usedWords) {
+function checkChainBonus(word, foundWords) {
   word = word.toUpperCase();
 
   if (word.length !== 5) return 0;
   if (awardedChainBonuses.has(word)) return 0;
 
-  // All 3-letter slices
+  const foundSet = new Set(foundWords.map(w => w.toUpperCase()));
+
   for (let i = 0; i <= 2; i++) {
     const w3 = word.slice(i, i + 3);
 
     for (let j = 0; j <= 1; j++) {
       const w4 = word.slice(j, j + 4);
 
-      if (usedWords.has(w3) && usedWords.has(w4)) {
+      if (foundSet.has(w3) && foundSet.has(w4)) {
         awardedChainBonuses.add(word);
         return 5;
       }
@@ -336,13 +337,12 @@ function submitWord() {
   return;
 }
 
-  let comboBonus = frozenRoundMultiplier;
-  let pts = basePoints(word.length) + comboBonus;
+ let comboBonus = frozenRoundMultiplier;
+let pts = basePoints(word.length) + comboBonus;
+usedWords.add(word + "-" + direction);
+foundWords.push(word);
 
-  usedWords.add(word + "-" + direction);
-  foundWords.push(word);
-
-  let chainJustCompleted = false;
+let chainJustCompleted = false;
 
 // NEW chain logic
 let chainBonus = checkChainBonus(word, foundWords);
@@ -352,23 +352,23 @@ if (chainBonus > 0) {
   chainJustCompleted = true;
 }
 
-  score += pts;
+score += pts;
 
-  if (comboBonus > 0) {
-    showComboPopup(comboBonus);
-  }
+if (comboBonus > 0) {
+  showComboPopup(comboBonus);
+}
 
-  frozenRoundMultiplier++;
-  scoreEl.textContent = score;
+frozenRoundMultiplier++;
+scoreEl.textContent = score;
 
-  if (chainJustCompleted) {
-    showChainBonus(5);
-    messageEl.textContent = `Chain bonus! ${word} scored ${pts} points`;
-  } else {
-    messageEl.textContent = `${word} scored ${pts} points`;
-  }
+if (chainJustCompleted) {
+  showChainBonus(5);
+  messageEl.textContent = `Chain bonus! ${word} scored ${pts} points`;
+} else {
+  messageEl.textContent = `${word} scored ${pts} points`;
+}
 
-  clearSelection();
+clearSelection();
 }
 
 function showChainBonus(points) {
