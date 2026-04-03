@@ -44,7 +44,7 @@ function getDictionarySet() {
     "END","LEND","BLEND",
     "INK","LINK","BLINK",
     "AIR","HAIR","CHAIR",
-    "ICE","MICE","SLICE",
+    "ICE","LICE","SLICE",
     "ATE","LATE","PLATE",
     "ILL","HILL","CHILL",
     "AND","BAND","BLAND",
@@ -84,30 +84,29 @@ function canBuildByAddingOneLetter(shorter, longer) {
   return extraLetters === 1;
 }
 
-function findCompletedChain(words, awardedChains = new Set()) {
-  const uniqueWords = [...new Set(words.map(w => w.toUpperCase()))];
+let awardedChainBonuses = new Set();
 
-  const words3 = uniqueWords.filter(w => w.length === 3);
-  const words4 = uniqueWords.filter(w => w.length === 4);
-  const words5 = uniqueWords.filter(w => w.length === 5);
+function checkChainBonus(word, usedWords) {
+  word = word.toUpperCase();
 
-  for (const w3 of words3) {
-    for (const w4 of words4) {
-      if (!canBuildByAddingOneLetter(w3, w4)) continue;
+  if (word.length !== 5) return 0;
+  if (awardedChainBonuses.has(word)) return 0;
 
-      for (const w5 of words5) {
-        if (!canBuildByAddingOneLetter(w4, w5)) continue;
+  // All 3-letter slices
+  for (let i = 0; i <= 2; i++) {
+    const w3 = word.slice(i, i + 3);
 
-        const chainKey = `${w3}-${w4}-${w5}`;
+    for (let j = 0; j <= 1; j++) {
+      const w4 = word.slice(j, j + 4);
 
-        if (!awardedChains.has(chainKey)) {
-          return { w3, w4, w5 };
-        }
+      if (usedWords.has(w3) && usedWords.has(w4)) {
+        awardedChainBonuses.add(word);
+        return 10;
       }
     }
   }
 
-  return null;
+  return 0;
 }
 // Chains
 const CHAIN_FAMILIES = [
@@ -133,19 +132,19 @@ const CHAIN_FAMILIES = [
 
 // Weighted letters
 const LETTER_POOL = [
-  ..."EEEEEEEEEEE",
+  ..."EEEEEEEEEE",
   ..."AAAAAAAAA",
-  ..."IIIIIIIII",
+  ..."IIIIIIII",
   ..."OOOOOOOO",
   ..."NNNNNNNN",
   ..."RRRRRRRR",
   ..."TTTTTTTT",
   ..."LLLLLLLL",
   ..."SSSSSSSS",
-  ..."DDDD",
-  ..."GGGG",
-  ..."BCMP",
-  ..."FHVWY",
+  ..."DDDDD",
+  ..."GGGGG",
+  ..."BBCCMMPP",
+  ..."FFHHVVVWWY",
   ..."KJXQZ"
 ];
 
@@ -344,16 +343,13 @@ function submitWord() {
   foundWords.push(word);
 
   let chainJustCompleted = false;
-const completedChain = findCompletedChain(foundWords, awardedChains);
 
-if (completedChain) {
-  const chainKey = `${completedChain.w3}-${completedChain.w4}-${completedChain.w5}`;
+// NEW chain logic
+let chainBonus = checkChainBonus(word, foundWords);
 
-  if (!awardedChains.has(chainKey)) {
-    pts += 10;
-    awardedChains.add(chainKey);
-    chainJustCompleted = true;
-  }
+if (chainBonus > 0) {
+  pts += chainBonus;
+  chainJustCompleted = true;
 }
 
   score += pts;
