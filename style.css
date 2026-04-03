@@ -402,10 +402,10 @@ width: 100%;
 }
 
 .contact-link {
-  top: 90%;
+  top: 92%;
   left: 75%;
   width: 22%;
-  height: 8%;
+  height: 7%;
 }
 @media screen and (max-width: 768px) {
   .play-btn {
