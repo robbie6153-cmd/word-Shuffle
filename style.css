@@ -203,7 +203,7 @@ button:active {
   position: relative;
   display: inline-block;
   margin: 0 auto;
-  max-width: 600px;
+  max-width: 500px;
 width: 100%;
 }
 
@@ -410,4 +410,9 @@ width: 100%;
   left: 75%;
   width: 22%;
   height: 8%;
+}
+@media (max-width: 768px) {
+  .play-btn {
+    bottom: 8% !important;
+  }
 }
