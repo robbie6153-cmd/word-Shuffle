@@ -86,22 +86,40 @@ function canBuildByAddingOneLetter(shorter, longer) {
 
 let awardedChainBonuses = new Set();
 
-function checkChainBonus(word, foundWords) {
+function checkChainBonus(foundWords) {
   const foundSet = new Set(foundWords.map(w => w.toUpperCase()));
   let bonus = 0;
 
-  for (const chain of CHAIN_FAMILIES) {
-    const chainKey = `${chain.w3}|${chain.w4}|${chain.w5}`;
+  // Look through every found 5-letter word
+  for (const w5 of foundSet) {
+    if (w5.length !== 5) continue;
 
-    if (awardedChainBonuses.has(chainKey)) continue;
+    // All possible 4-letter slices inside the 5-letter word
+    const fourLetterSlices = [
+      w5.slice(0, 4),
+      w5.slice(1, 5)
+    ];
 
-    if (
-      foundSet.has(chain.w3) &&
-      foundSet.has(chain.w4) &&
-      foundSet.has(chain.w5)
-    ) {
-      awardedChainBonuses.add(chainKey);
-      bonus += 5;
+    // All possible 3-letter slices inside the 5-letter word
+    const threeLetterSlices = [
+      w5.slice(0, 3),
+      w5.slice(1, 4),
+      w5.slice(2, 5)
+    ];
+
+    for (const w4 of fourLetterSlices) {
+      if (!foundSet.has(w4)) continue;
+
+      for (const w3 of threeLetterSlices) {
+        if (!foundSet.has(w3)) continue;
+
+        const chainKey = `${w3}|${w4}|${w5}`;
+
+        if (!awardedChainBonuses.has(chainKey)) {
+          awardedChainBonuses.add(chainKey);
+          bonus += 5;
+        }
+      }
     }
   }
 
@@ -343,12 +361,13 @@ function submitWord() {
  let comboBonus = frozenRoundMultiplier;
 let pts = basePoints(word.length) + comboBonus;
 usedWords.add(word + "-" + direction);
-foundWords.push(word);
-
+if (!foundWords.includes(word)) {
+  foundWords.push(word);
+}
 let chainJustCompleted = false;
 
 // NEW chain logic
-let chainBonus = checkChainBonus(word, foundWords);
+let chainBonus = checkChainBonus(foundWords);
 
 if (chainBonus > 0) {
   pts += chainBonus;
