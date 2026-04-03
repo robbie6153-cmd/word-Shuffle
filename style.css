@@ -200,12 +200,9 @@ button:active {
 }
 
 .home-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  height: 100vh;
-  padding-top: 0;
   position: relative;
+  width: fit-content;
+  margin: 0 auto;
 }
 
 .home-image {
@@ -400,7 +397,7 @@ button:active {
 }
 
 .contact-link {
-  top: 90%;
+  top: 80%;
   left: 75%;
   width: 22%;
   height: 8%;
