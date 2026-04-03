@@ -428,14 +428,16 @@ function freezeGrid(){
 }
 
 function startTimer(){
-  timerInterval = setInterval(()=>{
+  clearInterval(timerInterval);
+
+  timerInterval = setInterval(() => {
     if (gameEnded) return;
 
     timeLeft--;
     timerEl.textContent = timeLeft;
 
-    if (timeLeft<=0) endGame();
-  },1000);
+    if (timeLeft <= 0) endGame();
+  }, 1000);
 }
 
 function endGame(){
@@ -476,14 +478,13 @@ function startGame() {
 
 function renderBoard(){
   boardEl.innerHTML = "";
-}
 
-  board.forEach((l,i)=>{
+  board.forEach((l, i) => {
     const t = document.createElement("div");
     t.className = "tile";
     t.textContent = l;
 
-    if (l==="") t.classList.add("blank");
+    if (l === "") t.classList.add("blank");
     if (selectedPath.includes(i)) t.classList.add("selected");
 
     t.onpointerdown = () => {
@@ -501,9 +502,8 @@ function renderBoard(){
     };
 
     t.onpointerup = () => {
-      if (!frozen) {
-        moveTile(i);
-      }
+      if (isDragging) submitWord();
+      isDragging = false;
     };
 
     boardEl.appendChild(t);
