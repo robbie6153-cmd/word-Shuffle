@@ -413,6 +413,6 @@ width: 100%;
 }
 @media (max-width: 768px) {
   .play-btn {
-    bottom: 9% !important;
+    bottom: 10% !important;
   }
 }
