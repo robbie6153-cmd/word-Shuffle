@@ -207,9 +207,8 @@ button:active {
 
 .home-image {
   display: block;
-  width: auto;
-  height: 100vh;
-  max-width: 100%;
+  width: 100%;
+  height: auto;
   pointer-events: none;
 }
 
@@ -345,7 +344,10 @@ button:active {
 
 .home-wrapper {
   position: relative;
-}/* TOP MENU HOTSPOTS */
+  display: inline-block;
+  margin: 0 auto;
+}
+/* TOP MENU HOTSPOTS */
 
 .home-link {
   top: 0.5%;
