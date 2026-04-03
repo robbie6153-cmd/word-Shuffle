@@ -201,15 +201,14 @@ button:active {
 
 .home-wrapper {
   position: relative;
-  width: fit-content;
+  display: inline-block;
   margin: 0 auto;
 }
 
 .home-image {
-  max-width: 100%;
-  max-height: 100vh;
-  object-fit: contain;
   display: block;
+  max-width: 100%;
+  height: auto;
   pointer-events: none;
 }
 
