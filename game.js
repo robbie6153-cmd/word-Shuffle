@@ -440,7 +440,7 @@ function endGame() {
   timerEl.textContent = timeLeft;
 
  endMessageEl.textContent = `Time's up! You scored ${score}. Come back tomorrow for a new board!`;
-endScreenEl.classList.add("show");
+endScreenEl.style.display = "flex";
 }
 
 playAgainBtn.addEventListener("click", () => {
