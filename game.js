@@ -32,6 +32,7 @@ const endMessageEl = document.getElementById("endMessage");
 const playAgainBtn = document.getElementById("playAgainBtn");
 const homeBtn = document.getElementById("homeBtn");
 const comboPopup = document.getElementById("comboPopup");
+const submitScoreBtn = document.getElementById("submitScoreBtn");
 
 // Dictionary
 function getDictionarySet() {
@@ -438,9 +439,21 @@ function endGame() {
   gameEnded = true;
   clearInterval(timerInterval);
 
-  endScreenEl.style.display = "block";
-  endMessageEl.textContent = `Time’s up! You scored ${score}. Come back tomorrow!`;
+  endMessageEl.textContent = `Time’s up! You scored ${score}. Come back tomorrow for a new board!`;
+  endScreenEl.classList.remove("hidden");
 }
+
+playAgainBtn.addEventListener("click", () => {
+  location.reload();
+});
+
+submitScoreBtn.addEventListener("click", () => {
+  alert("This feature is coming soon.");
+});
+
+homeBtn.addEventListener("click", () => {
+  window.location.href = "index.html";
+});
 
 function resetGame() {
   const puzzle = buildDailyPuzzle();
