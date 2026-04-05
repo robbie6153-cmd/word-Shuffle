@@ -423,8 +423,6 @@ function freezeGrid() {
 }
 
 function startTimer() {
-  clearInterval(timerInterval);
-
   timerInterval = setInterval(() => {
     if (gameEnded) return;
 
@@ -438,6 +436,8 @@ function startTimer() {
 function endGame() {
   gameEnded = true;
   clearInterval(timerInterval);
+  timeLeft = 0;
+  timerEl.textContent = timeLeft;
 
   endMessageEl.textContent = `Time’s up! You scored ${score}. Come back tomorrow for a new board!`;
   endScreenEl.classList.remove("hidden");
@@ -447,9 +447,11 @@ playAgainBtn.addEventListener("click", () => {
   location.reload();
 });
 
-submitScoreBtn.addEventListener("click", () => {
-  alert("This feature is coming soon.");
-});
+if (submitScoreBtn) {
+  submitScoreBtn.addEventListener("click", () => {
+    alert("This feature is coming soon.");
+  });
+}
 
 homeBtn.addEventListener("click", () => {
   window.location.href = "index.html";
