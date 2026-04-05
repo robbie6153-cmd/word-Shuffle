@@ -439,8 +439,8 @@ function endGame() {
   timeLeft = 0;
   timerEl.textContent = timeLeft;
 
-  endMessageEl.textContent = `Time’s up! You scored ${score}. Come back tomorrow for a new board!`;
-  endScreenEl.classList.remove("hidden");
+ endMessageEl.textContent = `Time's up! You scored ${score}. Come back tomorrow for a new board!`;
+endScreenEl.classList.add("show");
 }
 
 playAgainBtn.addEventListener("click", () => {

@@ -142,29 +142,49 @@ button:active {
    END SCREEN
 ------------------------- */
 #endScreen {
-  display: none;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.7);
-  z-index: 2;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
 }
 
-#endContent {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+#endScreen.show {
+  display: flex;
+}
+
+.end-box {
   background: white;
   padding: 30px;
   border-radius: 10px;
   text-align: center;
+  max-width: 300px;
+  width: 80%;
 }
 
-#endContent h2 {
+.end-box p {
+  font-size: 20px;
+  font-weight: bold;
   margin-bottom: 20px;
+}
+
+.end-box button {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 14px;
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  background: #59c153;
+  color: white;
+  cursor: pointer;
 }
 
 /* -------------------------
