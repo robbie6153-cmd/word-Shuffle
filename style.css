@@ -468,3 +468,17 @@ button:active {
     line-height: 1.55;
   }
 }
+.more-games {
+  text-align: center;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.more-games a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.more-games a:hover {
+  text-decoration: underline;
+}
