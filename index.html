@@ -31,46 +31,53 @@
       <a href="profile.html" class="hotspot profile-link"></a>
       <a href="contact.html" class="hotspot contact-link"></a>
 
-      <button type="button" class="play-btn" onclick="showRules()"></button>
+      <button type="button" class="play-btn" onclick="startGame()"></button>
     </div>
-  </div>
 
-  <!-- RULES SCREEN -->
-  <div id="rules-screen" class="screen">
-    <img src="background.jpg" class="bg-image">
+    <section class="info-section">
+      <div class="info-box">
+        <h2>How to Play</h2>
 
-    <div class="rules-box">
-      <h2>How to Play</h2>
+        <p><strong>Time:</strong> You have 200 seconds to score as many points as possible.</p>
+        <p><strong>Move:</strong> Tap a tile next to the empty space to move it.</p>
+        <p><strong>Play:</strong> Tap <strong>Freeze Grid</strong>, then swipe to select words.</p>
 
-      <p><strong>Time:</strong> You have 200 seconds to score as many points as possible.</p>
-      <p><strong>Move:</strong> Tap a tile next to the empty space to move it.</p>
-      <p><strong>Play:</strong> Tap <strong>Freeze Grid</strong>, then swipe to select words.</p>
+        <hr>
 
-      <hr>
+        <h3>Rules</h3>
+        <ul>
+          <li>Words must be 3 letters or more</li>
+          <li>Words must be in the English dictionary</li>
+          <li>No names, places, brands, abbreviations, or words that would normally begin with a capital letter</li>
+          <li>Only words across and down can be selected</li>
+          <li>Each word can only be used once</li>
+          <li>The same word may be used once across and once down</li>
+        </ul>
 
-      <ul>
-        <li>Words must be 3+ letters</li>
-        <li>English words only (no names)</li>
-        <li>Only words across and downwards can be swiped</li>
-        <li>Each word can only be used once</li>
-        <li>However, the same word can be used across & down</li>
-      </ul>
+        <hr>
 
-      <hr>
+        <h3>Scoring</h3>
+        <ul>
+          <li>3 letters = 1 point</li>
+          <li>4 letters = 2 points</li>
+          <li>5 letters = 3 points</li>
+          <li>+1 combo bonus for each extra word found during the same frozen grid</li>
+          <li>Combo bonus increases by 1 for each additional word found while the grid is frozen</li>
+          <li>+5 bonus for a chain word (AIR → HAIR → CHAIR)</li>
+          <li>There will always be at least one chain word</li>
+          <li>Each chain can only be scored once, either across or down</li>
+        </ul>
 
-      <ul>
-        <li>3 letters = 1 point</li>
-        <li>4 letters = 2 points</li>
-        <li>5 letters = 3 points</li>
-        <li>+1 combo bonus for each extra word per frozen screen</li>
-        <li>Combo bonus increases by one point for each word found in the grid whilst frozen</li>
-        <li>+5 bonus for a chain word (AIR → HAIR → CHAIR)</li>
-        <li>There will always be at least one chain word</li>
-        <li>You can only have the same chain word once, across or down</li>
-      </ul>
+        <hr>
 
-      <button onclick="startGame()">Start Game</button>
-    </div>
+        <h3>About Word Shuffle</h3>
+        <p>
+          Word Shuffle is designed to test both speed and logical thinking. Spotting words quickly is important,
+          but the highest scores come from arranging the grid carefully to create combo bonuses and chain words.
+          The real challenge is not just seeing words — it is planning the grid in the smartest way before you freeze it.
+        </p>
+      </div>
+    </section>
   </div>
 
   <!-- GAME SCREEN -->

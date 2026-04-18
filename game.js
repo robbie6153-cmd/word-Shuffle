@@ -444,7 +444,8 @@ endScreenEl.style.display = "flex";
 }
 
 playAgainBtn.addEventListener("click", () => {
-  location.reload();
+  endScreenEl.style.display = "none";
+  startGame();
 });
 
 if (submitScoreBtn) {
@@ -488,9 +489,10 @@ function resetGame() {
 }
 
 function startGame() {
-  document.getElementById("rules-screen").classList.remove("active");
+  document.getElementById("home-screen").classList.remove("active");
   document.getElementById("game-screen").classList.add("active");
 
+  clearInterval(timerInterval);
   resetGame();
   startTimer();
 }
@@ -542,14 +544,15 @@ document.addEventListener("pointerup", () => {
 });
 
 freezeBtn.onclick = freezeGrid;
-playAgainBtn.onclick = startGame;
 
 resetGame();
 
-function showRules() {
-  document.getElementById("home-screen").classList.remove("active");
-  document.getElementById("rules-screen").classList.add("active");
-}
+homeBtn.addEventListener("click", () => {
+  clearInterval(timerInterval);
+  endScreenEl.style.display = "none";
+  document.getElementById("game-screen").classList.remove("active");
+  document.getElementById("home-screen").classList.add("active");
+});
 
 function showComboPopup(amount) {
   comboPopup.textContent = `Combo +${amount}`;
