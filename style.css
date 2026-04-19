@@ -482,3 +482,14 @@ button:active {
 .more-games a:hover {
   text-decoration: underline;
 }
+.brain-quote {
+  margin-top: 25px;
+  padding: 16px 18px;
+  background: rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #00c3ff;
+  border-radius: 6px;
+
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
