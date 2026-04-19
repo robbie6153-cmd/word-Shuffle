@@ -484,12 +484,13 @@ button:active {
 }
 .brain-quote {
   margin-top: 25px;
-  padding: 16px 18px;
-  background: rgba(0, 0, 0, 0.05);
+  padding: 18px;
+  background: linear-gradient(135deg, rgba(0,195,255,0.08), rgba(255,255,255,0.05));
   border-left: 4px solid #00c3ff;
-  border-radius: 6px;
+  border-radius: 8px;
 
   font-style: italic;
   font-size: 0.95rem;
-  line-height: 1.5;
+  line-height: 1.6;
+  color: #333;
 }
