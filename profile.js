@@ -43,7 +43,7 @@ onAuthStateChanged(auth, async (user) => {
     }
 
     // Get stats
-    const statsRef = doc(db, "users", user.uid, "stats", "lettersIn");
+    const statsRef = doc(db, "users", user.uid, "stats", "WordShuffle");
     const statsSnap = await getDoc(statsRef);
 
     if (statsSnap.exists()) {
@@ -80,7 +80,7 @@ window.confirmDeleteAccount = async function () {
 await deleteUser(user);
 
 // 🔥 Then delete Firestore data
-await deleteDoc(doc(db, "users", uid, "stats", "lettersIn"));
+await deleteDoc(doc(db, "users", uid, "stats", "WordShuffle"));
 await deleteDoc(doc(db, "users", uid));
 
     alert("Your account has been deleted.");

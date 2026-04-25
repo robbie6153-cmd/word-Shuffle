@@ -529,7 +529,8 @@ function resetGame() {
   timerEl.textContent = timeLeft;
   freezeBtn.textContent = "Freeze Grid";
   messageEl.textContent = "";
-  endScreenEl.style.display = "none";
+ endScreenEl.classList.add("hidden");
+endScreenEl.style.display = "none";
 
   renderBoard();
 }
@@ -620,4 +621,18 @@ function showComboPopup(amount) {
   comboPopup.classList.add("show");
 }
 window.startGame = startGame;
+
+const possiblePlayButtons = [
+  document.getElementById("playBtn"),
+  document.getElementById("startBtn"),
+  document.getElementById("playNowBtn"),
+  document.getElementById("playButton")
+];
+
+possiblePlayButtons.forEach((btn) => {
+  if (btn) {
+    btn.addEventListener("click", startGame);
+  }
+});
+
 resetGame();
