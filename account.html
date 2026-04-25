@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RobTech Account</title>
+
+  <style>
+ body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+
+  background: url("background.jpg") no-repeat center center fixed;
+  background-size: cover;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* 👈 THIS moves it down control */
+  padding-top: 120px;      /* 👈 adjust this */
+}
+
+    .account-box {
+      background: rgba(0, 0, 0, 0.75);
+      padding: 25px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 350px;
+      color: white;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px; /* prevents iPhone zoom */
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .signup-btn {
+      background: #28a745;
+      color: white;
+    }
+
+    .login-btn {
+      background: #007bff;
+      color: white;
+    }
+
+    .secondary-btn {
+      background: #444;
+      color: white;
+    }
+
+    .link {
+      margin-top: 10px;
+      display: block;
+      color: #ccc;
+      cursor: pointer;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="account-box">
+    <h1>RobTech Account</h1>
+
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <input type="text" id="username" placeholder="Username (for sign up only)">
+
+    <button class="signup-btn" onclick="signUp()">Sign Up</button>
+    <button class="login-btn" onclick="logIn()">Log In</button>
+
+    <span class="link" onclick="forgotPassword()">Forgot Password?</span>
+
+    <button class="secondary-btn" onclick="goHome()">Home</button>
+  </div>
+<script>
+  function goHome() {
+    window.location.href = "index.html";
+  }
+
+  function returnToGame() {
+    window.location.href = "index.html?submitPendingScore=true";
+  }
+
+  window.returnToGame = returnToGame;
+</script>
+
+<script type="module" src="firebase-config.js"></script>
+<script type="module" src="auth.js"></script>
+
+</body>
+</html>

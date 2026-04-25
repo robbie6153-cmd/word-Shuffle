@@ -1,34 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-CRCFW7B57V"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  gtag('config', 'G-CRCFW7B57V');
-</script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>profile - RobTechUK</title>
-  <link rel="stylesheet" href="style.css">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7137119315620021"
-     crossorigin="anonymous"></script>
+  <title>My Profile - Letters In</title>
+
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
 
-  <div class="page-container">
-    <h1>profile</h1>
+<body class="profile-page">
 
-    <p>We are currently working on this feature.</p>
+  <main class="profile-container">
 
-    <p>This feature will be available soon.</p>
+    <section class="profile-box">
+      <h1>My Profile</h1>
 
-    <a href="index.html" class="home-button">Return to Home</a>
-    
-  </div>
+      <div class="profile-section">
+        <h2>Details</h2>
 
+        <p><strong>Username:</strong> <span id="profileUsername">Loading...</span></p>
+        <p><strong>Email:</strong> <span id="profileEmail">Loading...</span></p>
+      </div>
+
+      <div class="profile-section">
+        <h2>Stats</h2>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-number" id="timesPlayed">0</span>
+            <span class="stat-label">Times Played</span>
+          </div>
+
+          <div class="stat-card">
+            <span class="stat-number" id="highestScore">0</span>
+            <span class="stat-label">Highest Score</span>
+          </div>
+
+          <div class="stat-card">
+            <span class="stat-number" id="averageScore">0</span>
+            <span class="stat-label">Average Score</span>
+          </div>
+
+          <div class="stat-card">
+            <span class="stat-number" id="longestStreak">0</span>
+            <span class="stat-label">Longest Streak</span>
+          </div>
+
+          <div class="stat-card">
+            <span class="stat-number" id="currentStreak">0</span>
+            <span class="stat-label">Current Streak</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-section danger-zone">
+  <h2>Account</h2>
+  <p>Delete your RobTechUK account permanently.</p>
+ <button id="deleteAccountBtn" class="delete-account-button">Delete Account</button>
+</div>
+
+      <a href="index.html" class="back-home">← Back to Letters In</a>
+    </section>
+
+  </main>
+
+  <script type="module" src="profile.js"></script>
 </body>
 </html>

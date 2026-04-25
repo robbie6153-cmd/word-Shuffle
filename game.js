@@ -1,3 +1,14 @@
+import { db, auth } from "./firebase-config.js";
+
+import {
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+  serverTimestamp,
+  increment
+} from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+
 const GAME_TIME = 200;
 const GRID_SIZE = 5;
 const TILE_COUNT = 24;
@@ -10,15 +21,13 @@ let timerInterval = null;
 let gameEnded = false;
 let frozen = false;
 
-let usedWords = new Set(); // will store "WORD-right" or "WORD-down"
+let usedWords = new Set();
 let foundWords = [];
 let frozenRoundMultiplier = 2;
 let selectedPath = [];
 let isDragging = false;
 let currentDirection = null;
 
-let currentPuzzle = null;
-let fullChainWord = "";
 let awardedChainBonuses = new Set();
 
 // DOM
@@ -33,6 +42,11 @@ const playAgainBtn = document.getElementById("playAgainBtn");
 const homeBtn = document.getElementById("homeBtn");
 const comboPopup = document.getElementById("comboPopup");
 const submitScoreBtn = document.getElementById("submitScoreBtn");
+
+function getTodayId() {
+  const today = new Date();
+  return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+}
 
 // Dictionary
 function getDictionarySet() {
@@ -52,8 +66,7 @@ function getDictionarySet() {
   ]);
 }
 
-let DICTIONARY = new Set();
-DICTIONARY = getDictionarySet();
+let DICTIONARY = getDictionarySet();
 
 function getLetterCounts(word) {
   const counts = {};
@@ -63,28 +76,6 @@ function getLetterCounts(word) {
   return counts;
 }
 
-function canBuildByAddingOneLetter(shorter, longer) {
-  shorter = shorter.toUpperCase();
-  longer = longer.toUpperCase();
-
-  if (longer.length !== shorter.length + 1) return false;
-
-  const shortCounts = getLetterCounts(shorter);
-  const longCounts = getLetterCounts(longer);
-
-  let extraLetters = 0;
-
-  for (const ch in longCounts) {
-    const shortCount = shortCounts[ch] || 0;
-    const diff = longCounts[ch] - shortCount;
-
-    if (diff < 0) return false;
-    extraLetters += diff;
-  }
-
-  return extraLetters === 1;
-}
-
 function checkChainBonus(foundWords) {
   const foundSet = new Set(foundWords.map(w => w.toUpperCase()));
   let bonus = 0;
@@ -92,16 +83,8 @@ function checkChainBonus(foundWords) {
   for (const w5 of foundSet) {
     if (w5.length !== 5) continue;
 
-    const fourLetterSlices = [
-      w5.slice(0, 4),
-      w5.slice(1, 5)
-    ];
-
-    const threeLetterSlices = [
-      w5.slice(0, 3),
-      w5.slice(1, 4),
-      w5.slice(2, 5)
-    ];
+    const fourLetterSlices = [w5.slice(0, 4), w5.slice(1, 5)];
+    const threeLetterSlices = [w5.slice(0, 3), w5.slice(1, 4), w5.slice(2, 5)];
 
     for (const w4 of fourLetterSlices) {
       if (!foundSet.has(w4)) continue;
@@ -148,7 +131,6 @@ const CHAIN_FAMILIES = [
   { w3: "BAN", w4: "BANG", w5: "BANGS" }
 ];
 
-// Weighted letters
 const LETTER_POOL = [
   ..."EEEEEEEEEE",
   ..."AAAAAAAAA",
@@ -166,7 +148,6 @@ const LETTER_POOL = [
   ..."KJXQZ"
 ];
 
-// Seed
 function getDailySeed() {
   const now = new Date();
   return Math.floor(Date.UTC(
@@ -234,8 +215,8 @@ function buildDailyPuzzle() {
 
   while (true) {
     const rng = mulberry32(seed + attempt);
-
     const letters = [];
+
     for (let i = 0; i < TILE_COUNT; i++) {
       letters.push(pickWeightedLetter(rng));
     }
@@ -251,7 +232,6 @@ function buildDailyPuzzle() {
   }
 }
 
-// Helpers
 function rowOf(i) { return Math.floor(i / GRID_SIZE); }
 function colOf(i) { return i % GRID_SIZE; }
 
@@ -381,13 +361,14 @@ function submitWord() {
 
   if (chainJustCompleted) {
     showChainBonus(5);
-  messageEl.textContent = `Chain bonus! ${word} earned +5 chain bonus`;
+    messageEl.textContent = `Chain bonus! ${word} earned +5 chain bonus`;
   } else {
     messageEl.textContent = `${word} scored ${pts} points`;
   }
 
   clearSelection();
 }
+
 function showChainBonus(points) {
   const bonus = document.createElement("div");
   bonus.className = "chain-bonus";
@@ -439,24 +420,88 @@ function endGame() {
   timeLeft = 0;
   timerEl.textContent = timeLeft;
 
- endMessageEl.textContent = `Time's up! You scored ${score}. Come back tomorrow for a new board!`;
-endScreenEl.style.display = "flex";
+  endMessageEl.textContent = `Time's up! You scored ${score}. Submit your score to the Word Shuffle leaderboard.`;
+  endScreenEl.style.display = "flex";
 }
 
-playAgainBtn.addEventListener("click", () => {
-  endScreenEl.style.display = "none";
-  startGame();
-});
+async function submitScore() {
+  const user = auth.currentUser;
 
-if (submitScoreBtn) {
-  submitScoreBtn.addEventListener("click", () => {
-    alert("This feature is coming soon.");
-  });
+  if (!user) {
+    alert("Please sign in to submit your score.");
+    window.location.href = "account.html";
+    return;
+  }
+
+  if (score <= 0) {
+    alert("You need to score at least 1 point before submitting.");
+    return;
+  }
+
+  try {
+    const todayId = getTodayId();
+
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
+
+    let username = user.email || "Player";
+
+    if (userSnap.exists()) {
+      const userData = userSnap.data();
+      username =
+        userData.username ||
+        userData.displayName ||
+        userData.firstName ||
+        user.email ||
+        "Player";
+    }
+
+    const scoreRef = doc(
+      db,
+      "leaderboards",
+      "word-shuffle",
+      "days",
+      todayId,
+      "scores",
+      user.uid
+    );
+
+    const existingScoreSnap = await getDoc(scoreRef);
+
+    if (existingScoreSnap.exists()) {
+      const existingScore = existingScoreSnap.data().score || 0;
+
+      if (existingScore >= score) {
+        alert(`Score already submitted. Your best score today is ${existingScore}.`);
+        return;
+      }
+    }
+
+    await setDoc(scoreRef, {
+      uid: user.uid,
+      username: username,
+      score: score,
+      game: "word-shuffle",
+      day: todayId,
+      submittedAt: serverTimestamp()
+    });
+
+    const statsRef = doc(db, "users", user.uid, "gameStats", "word-shuffle");
+
+    await setDoc(statsRef, {
+      gamesPlayed: increment(1),
+      totalScore: increment(score),
+      bestScore: score,
+      lastPlayed: serverTimestamp()
+    }, { merge: true });
+
+    alert("Score submitted to the Word Shuffle leaderboard!");
+
+  } catch (error) {
+    console.error("Error submitting score:", error);
+    alert("Error submitting score: " + error.message);
+  }
 }
-
-homeBtn.addEventListener("click", () => {
-  window.location.href = "index.html";
-});
 
 function resetGame() {
   const puzzle = buildDailyPuzzle();
@@ -543,16 +588,29 @@ document.addEventListener("pointerup", () => {
   }
 });
 
-freezeBtn.onclick = freezeGrid;
+if (freezeBtn) {
+  freezeBtn.onclick = freezeGrid;
+}
 
-resetGame();
+if (playAgainBtn) {
+  playAgainBtn.addEventListener("click", () => {
+    endScreenEl.style.display = "none";
+    startGame();
+  });
+}
 
-homeBtn.addEventListener("click", () => {
-  clearInterval(timerInterval);
-  endScreenEl.style.display = "none";
-  document.getElementById("game-screen").classList.remove("active");
-  document.getElementById("home-screen").classList.add("active");
-});
+if (submitScoreBtn) {
+  submitScoreBtn.addEventListener("click", submitScore);
+}
+
+if (homeBtn) {
+  homeBtn.addEventListener("click", () => {
+    clearInterval(timerInterval);
+    endScreenEl.style.display = "none";
+    document.getElementById("game-screen").classList.remove("active");
+    document.getElementById("home-screen").classList.add("active");
+  });
+}
 
 function showComboPopup(amount) {
   comboPopup.textContent = `Combo +${amount}`;
@@ -560,3 +618,5 @@ function showComboPopup(amount) {
   void comboPopup.offsetWidth;
   comboPopup.classList.add("show");
 }
+
+resetGame();
