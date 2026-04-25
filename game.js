@@ -619,5 +619,5 @@ function showComboPopup(amount) {
   void comboPopup.offsetWidth;
   comboPopup.classList.add("show");
 }
-
+window.startGame = startGame;
 resetGame();

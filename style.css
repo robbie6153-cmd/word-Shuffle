@@ -528,3 +528,20 @@ button:active {
 #homeBtn:hover {
   transform: scale(1.03);
 }
+.home-account-btn {
+  display: block;
+  width: 220px;
+  margin: 16px auto;
+  padding: 12px 18px;
+  background: #28a745;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 18px;
+  border-radius: 12px;
+}
+
+.home-account-btn:hover {
+  transform: scale(1.03);
+}
