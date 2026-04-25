@@ -421,6 +421,7 @@ function endGame() {
   timerEl.textContent = timeLeft;
 
   endMessageEl.textContent = `Time's up! You scored ${score}. Submit your score to the Word Shuffle leaderboard.`;
+  endScreenEl.classList.remove("hidden");
   endScreenEl.style.display = "flex";
 }
 

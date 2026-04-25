@@ -494,3 +494,37 @@ button:active {
   line-height: 1.6;
   color: #333;
 }
+#submitScoreBtn,
+#playAgainBtn,
+#homeBtn {
+  display: block;
+  width: 220px;
+  margin: 12px auto;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#submitScoreBtn {
+  background: #28a745;
+  color: white;
+}
+
+#playAgainBtn {
+  background: #007bff;
+  color: white;
+}
+
+#homeBtn {
+  background: #444;
+  color: white;
+}
+
+#submitScoreBtn:hover,
+#playAgainBtn:hover,
+#homeBtn:hover {
+  transform: scale(1.03);
+}
