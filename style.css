@@ -551,23 +551,16 @@ button:active {
   top: 69%;
   width: 46%;
   height: 6%;
-  display: block;
-background: rgba(255, 0, 255, 0.25);
-  color: transparent;
-  text-decoration: none;
-  z-index: 20;
-}
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-.logged-in-box {
-  position: absolute;
-  left: 22%;
-  top: 69%;
-  width: 56%;
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
+  background: rgba(255, 0, 255, 0.25); /* debug pink */
   color: white;
+  font-size: 22px;
+  font-weight: bold;
+  text-decoration: none;
   text-shadow: 0 2px 5px black;
-  z-index: 21;
-  pointer-events: none;
+
+  z-index: 20;
 }
