@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
   <url>
     <loc>https://wordshuffle.co.uk/</loc>
   </url>
+
+  <url>
+    <loc>https://wordshuffle.co.uk/about.html</loc>
+  </url>
+
+  <url>
+    <loc>https://wordshuffle.co.uk/contact.html</loc>
+  </url>
+
+  <url>
+    <loc>https://wordshuffle.co.uk/privacy.html</loc>
+  </url>
+
+  <url>
+    <loc>https://wordshuffle.co.uk/terms.html</loc>
+  </url>
+
+  <url>
+    <loc>https://wordshuffle.co.uk/profile.html</loc>
+  </url>
+
+  <url>
+    <loc>https://wordshuffle.co.uk/leaderboard.html</loc>
+    <lastmod>2026-04-26</lastmod>
+  </url>
+
 </urlset>
