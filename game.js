@@ -13,7 +13,7 @@ import {
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 
-const GAME_TIME = 20;
+const GAME_TIME = 200;
 const GRID_SIZE = 5;
 const TILE_COUNT = 24;
 
