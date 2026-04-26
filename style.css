@@ -552,7 +552,7 @@ button:active {
   width: 46%;
   height: 6%;
   display: block;
-background: transparent;
+background: rgba(255, 0, 255, 0.25);
   color: transparent;
   text-decoration: none;
   z-index: 20;
