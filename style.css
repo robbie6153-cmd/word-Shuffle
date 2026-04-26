@@ -532,7 +532,7 @@ button:active {
 .account-link {
   position: absolute;
   left: 22%;
-  top: 72%;
+  top: 85%;
   width: 56%;
   height: 5%;
 
@@ -552,7 +552,7 @@ button:active {
 .logged-in-box {
   position: absolute;
   left: 12%;
-  top: 85%;
+  top: 90%;
   width: 76%;
 
   text-align: center;
