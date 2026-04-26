@@ -491,9 +491,35 @@ async function submitScore() {
       "scores",
       user.uid
     );
+const existingScoreSnap = await getDoc(scoreRef);
 
-    const existingScoreSnap = await getDoc(scoreRef);
+const today = todayId;
 
+const yesterdayDate = new Date();
+yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+const yesterday = yesterdayDate.toISOString().split("T")[0];
+
+const userData = userSnap.exists() ? userSnap.data() : {};
+
+let currentStreak = userData.currentStreak || 0;
+let longestStreak = userData.longestStreak || 0;
+let lastPlayedDate = userData.lastPlayedDate || null;
+
+if (lastPlayedDate !== today) {
+  if (lastPlayedDate === yesterday) {
+    currentStreak += 1;
+  } else {
+    currentStreak = 1;
+  }
+
+  longestStreak = Math.max(longestStreak, currentStreak);
+
+  await setDoc(userRef, {
+    currentStreak,
+    longestStreak,
+    lastPlayedDate: today
+  }, { merge: true });
+}
     if (existingScoreSnap.exists()) {
       const existingScore = existingScoreSnap.data().score || 0;
 
