@@ -491,14 +491,21 @@ async function submitScore() {
       submittedAt: serverTimestamp()
     });
 
-    const statsRef = doc(db, "users", user.uid, "gameStats", "word-shuffle");
+const statsRef = doc(db, "users", user.uid, "gameStats", "word-shuffle");
 
-    await setDoc(statsRef, {
-      gamesPlayed: increment(1),
-      totalScore: increment(score),
-      bestScore: score,
-      lastPlayed: serverTimestamp()
-    }, { merge: true });
+let previousBest = 0;
+const statsSnap = await getDoc(statsRef);
+
+if (statsSnap.exists()) {
+  previousBest = statsSnap.data().bestScore || 0;
+}
+
+await setDoc(statsRef, {
+  gamesPlayed: increment(1),
+  totalScore: increment(score),
+  bestScore: Math.max(previousBest, score),
+  lastPlayed: serverTimestamp()
+}, { merge: true });
 
     alert("Score submitted to the Word Shuffle leaderboard!");
 

@@ -43,17 +43,23 @@ onAuthStateChanged(auth, async (user) => {
     }
 
     // Get stats
-    const statsRef = doc(db, "users", user.uid, "stats", "WordShuffle");
+    const statsRef = doc(db, "users", user.uid, "gameStats", "word-shuffle");
     const statsSnap = await getDoc(statsRef);
 
     if (statsSnap.exists()) {
       const stats = statsSnap.data();
 
-      timesPlayedEl.textContent = stats.timesPlayed || 0;
-      highestScoreEl.textContent = stats.highestScore || 0;
-      averageScoreEl.textContent = stats.averageScore || 0;
-      longestStreakEl.textContent = stats.longestStreak || 0;
-      currentStreakEl.textContent = stats.currentStreak || 0;
+    const gamesPlayed = stats.gamesPlayed || 0;
+const totalScore = stats.totalScore || 0;
+const bestScore = stats.bestScore || 0;
+
+timesPlayedEl.textContent = gamesPlayed;
+highestScoreEl.textContent = bestScore;
+averageScoreEl.textContent =
+  gamesPlayed > 0 ? Math.round(totalScore / gamesPlayed) : 0;
+
+longestStreakEl.textContent = stats.longestStreak || 0;
+currentStreakEl.textContent = stats.currentStreak || 0;
     }
 
   } catch (error) {
@@ -80,7 +86,7 @@ window.confirmDeleteAccount = async function () {
 await deleteUser(user);
 
 // 🔥 Then delete Firestore data
-await deleteDoc(doc(db, "users", uid, "stats", "WordShuffle"));
+await deleteDoc(doc(db, "users", uid, "gameStats", "word-shuffle"));
 await deleteDoc(doc(db, "users", uid));
 
     alert("Your account has been deleted.");
