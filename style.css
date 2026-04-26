@@ -528,39 +528,39 @@ button:active {
 #homeBtn:hover {
   transform: scale(1.03);
 }
-.home-account-btn {
-  display: block;
-  width: 220px;
-  margin: 16px auto;
-  padding: 12px 18px;
-  background: #28a745;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 18px;
-  border-radius: 12px;
-}
 
-.home-account-btn:hover {
-  transform: scale(1.03);
-}
 .account-link {
   position: absolute;
-  left: 27%;
-  top: 69%;
-  width: 46%;
-  height: 6%;
+  left: 22%;
+  top: 72%;
+  width: 56%;
+  height: 5%;
+
   display: flex;
   align-items: center;
   justify-content: center;
 
   background: rgba(255, 0, 255, 0.25); /* debug pink */
-  color: white;
-  font-size: 22px;
+  color: white !important;
+  font-size: 18px;
   font-weight: bold;
   text-decoration: none;
   text-shadow: 0 2px 5px black;
 
-  z-index: 20;
+  z-index: 40;
+}
+.logged-in-box {
+  position: absolute;
+  left: 12%;
+  top: 72%;
+  width: 76%;
+
+  text-align: center;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  text-shadow: 0 2px 5px black;
+
+  z-index: 41;
+  pointer-events: none;
 }
