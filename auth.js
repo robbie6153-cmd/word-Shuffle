@@ -20,24 +20,33 @@ let currentUser = null;
 let currentUsername = null;
 
 // 🔐 Auth state listener
+const accountBtn = document.getElementById("accountBtn");
+const loggedInBox = document.getElementById("loggedInBox");
+
 onAuthStateChanged(auth, async (user) => {
-  currentUser = user;
-  window.robTechCurrentUser = user;
-
   if (user) {
-    const userRef = doc(db, "users", user.uid);
-    const userSnap = await getDoc(userRef);
+    let username = user.email;
 
+    const userSnap = await getDoc(doc(db, "users", user.uid));
     if (userSnap.exists()) {
-      currentUsername = userSnap.data().username || user.email;
-    } else {
-      currentUsername = user.email;
+      username = userSnap.data().username || user.email;
     }
 
-    window.robTechUsername = currentUsername;
+    if (loggedInBox) {
+      loggedInBox.textContent = `Signed in as ${username}`;
+    }
+
+    if (accountBtn) {
+      accountBtn.style.display = "none";
+    }
   } else {
-    currentUsername = null;
-    window.robTechUsername = null;
+    if (loggedInBox) {
+      loggedInBox.textContent = "";
+    }
+
+    if (accountBtn) {
+      accountBtn.style.display = "block";
+    }
   }
 });
 
