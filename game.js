@@ -13,7 +13,7 @@ import {
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 
-const GAME_TIME = 200;
+const GAME_TIME = 20;
 const GRID_SIZE = 5;
 const TILE_COUNT = 24;
 
@@ -417,12 +417,33 @@ function startTimer() {
     if (timeLeft <= 0) endGame();
   }, 1000);
 }
+async function saveGameStats() {
+  const user = auth.currentUser;
+  if (!user) return;
 
-function endGame() {
+  const statsRef = doc(db, "users", user.uid, "gameStats", "word-shuffle");
+  const statsSnap = await getDoc(statsRef);
+
+  let previousBest = 0;
+
+  if (statsSnap.exists()) {
+    previousBest = statsSnap.data().bestScore || 0;
+  }
+
+  await setDoc(statsRef, {
+    gamesPlayed: increment(1),
+    totalScore: increment(score),
+    bestScore: Math.max(previousBest, score),
+    lastPlayed: serverTimestamp()
+  }, { merge: true });
+}
+async function endGame() {
   gameEnded = true;
   clearInterval(timerInterval);
   timeLeft = 0;
   timerEl.textContent = timeLeft;
+
+  await saveGameStats(); // 👈 THIS is the key line
 
   endMessageEl.textContent = `Time's up! You scored ${score}. Submit your score to the Word Shuffle leaderboard.`;
   endScreenEl.classList.remove("hidden");
