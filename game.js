@@ -627,8 +627,9 @@ function showComboPopup(amount) {
 }
 
 onAuthStateChanged(auth, async (user) => {
-  const accountBtn = document.getElementById("accountBtn");
-  const loggedInBox = document.getElementById("loggedInBox");
+const accountBtn = document.getElementById("accountBtn");
+const loggedInBox = document.getElementById("loggedInBox");
+const gameLoggedInBox = document.getElementById("gameLoggedInBox");
 
   if (user) {
     let username = user.email || "User";
@@ -650,8 +651,12 @@ onAuthStateChanged(auth, async (user) => {
 
     // Show logged in text
     if (loggedInBox) {
-      loggedInBox.textContent = `Logged in as ${username}`;
-    }
+  loggedInBox.textContent = `Logged in as ${username}`;
+}
+
+if (gameLoggedInBox) {
+  gameLoggedInBox.textContent = `Logged in as ${username}`;
+}
 
   } else {
     // Show login button
@@ -660,9 +665,13 @@ onAuthStateChanged(auth, async (user) => {
     }
 
     // Clear text
-    if (loggedInBox) {
-      loggedInBox.textContent = "";
-    }
+   if (loggedInBox) {
+  loggedInBox.textContent = "";
+}
+
+if (gameLoggedInBox) {
+  gameLoggedInBox.textContent = "";
+}
   }
 });
 window.startGame = startGame;
