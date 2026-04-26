@@ -9,6 +9,10 @@ import {
   increment
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+
 const GAME_TIME = 200;
 const GRID_SIZE = 5;
 const TILE_COUNT = 24;
@@ -614,12 +618,53 @@ if (homeBtn) {
   });
 }
 
+
 function showComboPopup(amount) {
   comboPopup.textContent = `Combo +${amount}`;
   comboPopup.classList.remove("show");
   void comboPopup.offsetWidth;
   comboPopup.classList.add("show");
 }
+
+onAuthStateChanged(auth, async (user) => {
+  const accountBtn = document.getElementById("accountBtn");
+  const loggedInBox = document.getElementById("loggedInBox");
+
+  if (user) {
+    let username = user.email || "User";
+
+    try {
+      const userSnap = await getDoc(doc(db, "users", user.uid));
+
+      if (userSnap.exists()) {
+        username = userSnap.data().username || user.email;
+      }
+    } catch (err) {
+      console.log("Username fetch failed");
+    }
+
+    // Hide login button
+    if (accountBtn) {
+      accountBtn.style.display = "none";
+    }
+
+    // Show logged in text
+    if (loggedInBox) {
+      loggedInBox.textContent = `Logged in as ${username}`;
+    }
+
+  } else {
+    // Show login button
+    if (accountBtn) {
+      accountBtn.style.display = "flex";
+    }
+
+    // Clear text
+    if (loggedInBox) {
+      loggedInBox.textContent = "";
+    }
+  }
+});
 window.startGame = startGame;
 
 const possiblePlayButtons = [
